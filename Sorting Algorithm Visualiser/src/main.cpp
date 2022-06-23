@@ -60,34 +60,6 @@ int main()
     // size alias:
     size_t listSize = randomNumberList.size();
 
-    // bubble sort algorithm
-    for (size_t i = 0; i < listSize; i++) 
-    {
-        for (size_t j = 0; j < listSize-1; j++)
-        {
-            if (randomNumberList[j] > randomNumberList[j+1])
-            {
-                // swap from the numbers list:
-                std::swap(randomNumberList[j], randomNumberList[j+1]);
-
-                // swap bar from graph list:
-                std::swap(graph[j], graph[j+1]);
-                sf::Vector2f temp(
-                    graph[j].getPosition().x, 
-                    graph[j].getPosition().y
-                );
-                graph[j].setPosition(
-                    graph[j+1].getPosition().x, 
-                    graph[j].getPosition().y
-                );
-                graph[j+1].setPosition(
-                    temp.x, 
-                    graph[j+1].getPosition().y
-                );
-            }
-        }
-    }
-
     for (const auto& value : randomNumberList)
         std::cout << value << std::endl;
 
@@ -100,8 +72,42 @@ int main()
                 window.close();
         }
 
-        sf::sleep(sf::milliseconds(100));
+        //sf::sleep(sf::milliseconds(10));
         t.setString("Counter = " + std::to_string(counter++));
+
+        // bubble sort algorithm
+        for (size_t i = 0; i < listSize; i++) 
+        {
+            /*graph[i].setFillColor(sf::Color::Red);
+            graph[i+1].setFillColor(sf::Color::Red);*/
+            for (size_t j = 0; j < listSize-1; j++)
+            {
+                if (randomNumberList[j] > randomNumberList[j+1])
+                {
+                    // swap from the numbers list:
+                    std::swap(randomNumberList[j], randomNumberList[j+1]);
+
+                    // swap bar from graph list:
+                    std::swap(graph[j], graph[j+1]);
+                    sf::Vector2f temp(
+                        graph[j].getPosition().x, 
+                        graph[j].getPosition().y
+                    );
+                    graph[j].setPosition(
+                        graph[j+1].getPosition().x, 
+                        graph[j].getPosition().y
+                    );
+                    graph[j+1].setPosition(
+                        temp.x, 
+                        graph[j+1].getPosition().y
+                    );
+                }
+            }
+            sf::sleep(sf::milliseconds(200));
+            graph[i].setFillColor(sf::Color::Green);
+            graph[i+1].setFillColor(sf::Color::Green);
+            break;
+        }
 
         window.clear(sf::Color::White);
         window.draw(t);
