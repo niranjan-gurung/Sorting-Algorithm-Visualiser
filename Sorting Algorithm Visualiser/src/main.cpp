@@ -29,14 +29,16 @@ int main()
 
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<uint32_t> generate(10, 200);
+    std::uniform_int_distribution<uint32_t> generate(1, 500);
 
     // init empty lists:
     std::vector<uint32_t> randomNumberList(MAX_SIZE);
     std::vector<sf::RectangleShape> graph(MAX_SIZE);
     
-    int c = 0;                      // index tracker of graph list
+    int index = 0;                  // index tracker of graph list
     float barGraphSpacing = 10;     // tracks spacing between each individual graph's bars.
+
+    uint32_t windowSizeY = window.getSize().y;
 
     for_each(randomNumberList.begin(), randomNumberList.end(), 
         [&](uint32_t& randomNumberList) 
@@ -44,16 +46,15 @@ int main()
         // generate random numbers for the array list:
         randomNumberList = generate(rng);
 
-        // generate rectagle height based on list of numbers:
-        graph.at(c) = sf::RectangleShape(sf::Vector2f(20.f, randomNumberList));
-        graph.at(c).setFillColor(sf::Color::Green);
-        graph.at(c).setPosition(
+        // generate bar height based on the current index of the randomNumberList:
+        graph[index] = sf::RectangleShape(sf::Vector2f(20.f, randomNumberList));
+        graph[index].setFillColor(sf::Color::Green);
+        graph[index].setPosition(
             barGraphSpacing, 
-            window.getSize().y-graph.at(c).getGlobalBounds().height
+            windowSizeY-graph[index].getGlobalBounds().height
         );
-
-        c++;
-        barGraphSpacing += 30;
+        index++;
+        barGraphSpacing += MAX_SIZE;    // +30
     });
 
     // size alias:
@@ -69,17 +70,20 @@ int main()
                 // swap from the numbers list:
                 std::swap(randomNumberList[j], randomNumberList[j+1]);
 
-                // swap from the graph list:
-                /*sf::RectangleShape r = graph[j];
-                graph[j] = graph[j+1];
-                graph[j+1] = r;*/
-
-                graph[j].setFillColor(sf::Color::Red);
-                graph[j+1].setFillColor(sf::Color::Blue);
-                /*sf::Vector2f temp(graph[j].getPosition().x, graph[j].getPosition().y);
-                graph[j].setPosition(graph[j+1].getPosition().x, graph[j+1].getPosition().y);
-                graph[j+1].setPosition(temp.x, temp.y);*/
-                //std::swap(graph[j], graph[j+1]);
+                // swap bar from graph list:
+                std::swap(graph[j], graph[j+1]);
+                sf::Vector2f temp(
+                    graph[j].getPosition().x, 
+                    graph[j].getPosition().y
+                );
+                graph[j].setPosition(
+                    graph[j+1].getPosition().x, 
+                    graph[j].getPosition().y
+                );
+                graph[j+1].setPosition(
+                    temp.x, 
+                    graph[j+1].getPosition().y
+                );
             }
         }
     }
@@ -96,19 +100,14 @@ int main()
                 window.close();
         }
 
-        //sf::sleep(sf::milliseconds(100));
-        //t.setString("Counter = " + std::to_string(counter++));
+        sf::sleep(sf::milliseconds(100));
+        t.setString("Counter = " + std::to_string(counter++));
 
         window.clear(sf::Color::White);
         window.draw(t);
-        
-        for (const auto& value : graph)
-        {
-            window.draw(value);
-        }
 
-        //window.draw(a);
-        //window.draw(b);
+        for (const auto& value : graph)
+            window.draw(value);
 
         window.display();
     }
