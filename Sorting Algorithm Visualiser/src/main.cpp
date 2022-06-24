@@ -51,9 +51,9 @@ void SelectionSort(std::vector<uint32_t>& randomNumberList,
             if (randomNumberList[j] < randomNumberList[minIndex])
             {
                 minIndex = j;
-                sf::sleep(sf::milliseconds(5));
-                break;
             }
+            sf::sleep(sf::milliseconds(2));
+            break;
         }
         // swap from the numbers list:
         std::swap(randomNumberList[minIndex], randomNumberList[i]);
@@ -170,9 +170,9 @@ int main()
         if (started)
         {
             // bubble sort:
-            BubbleSort(randomNumberList, graph, listSize);  
+            //BubbleSort(randomNumberList, graph, listSize);  
             // selection sort:
-            //SelectionSort(randomNumberList, graph, listSize);  
+            SelectionSort(randomNumberList, graph, listSize);  
         }
         if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
         {
