@@ -5,7 +5,9 @@
 #include <random>
 
 // bubble sort algorithm
-void BubbleSort(std::vector<uint32_t>& randomNumberList, std::vector<sf::RectangleShape>& graph, const size_t& listSize)
+void BubbleSort(std::vector<uint32_t>& randomNumberList, 
+                std::vector<sf::RectangleShape>& graph, 
+                const size_t& listSize)
 {
     for (size_t i = listSize; i > 0; i--) 
     {
@@ -15,19 +17,16 @@ void BubbleSort(std::vector<uint32_t>& randomNumberList, std::vector<sf::Rectang
             {
                 // swap from the numbers list:
                 std::swap(randomNumberList[j], randomNumberList[j-1]);
-
                 // swap bar from graph list:
                 std::swap(graph[j], graph[j-1]);
-                sf::Vector2f temp(
-                    graph[j].getPosition().x, 
-                    graph[j].getPosition().y
-                );
+
+                float xCoord = graph[j].getPosition().x;
                 graph[j].setPosition(
                     graph[j-1].getPosition().x, 
                     graph[j].getPosition().y
                 );
                 graph[j-1].setPosition(
-                    temp.x, 
+                    xCoord, 
                     graph[j-1].getPosition().y
                 );
                 sf::sleep(sf::milliseconds(10));
@@ -39,26 +38,64 @@ void BubbleSort(std::vector<uint32_t>& randomNumberList, std::vector<sf::Rectang
     }
 }
 
+// selection sort
+void SelectionSort(std::vector<uint32_t>& randomNumberList, 
+                    std::vector<sf::RectangleShape>& graph, 
+                    const size_t& listSize)
+{
+    for (size_t i = 0; i < listSize-1; i++)
+    {
+        uint32_t minIndex = i;
+        for (size_t j = i+1; j < listSize; j++)
+        {
+            if (randomNumberList[j] < randomNumberList[minIndex])
+            {
+                minIndex = j;
+                sf::sleep(sf::milliseconds(5));
+                break;
+            }
+        }
+        // swap from the numbers list:
+        std::swap(randomNumberList[minIndex], randomNumberList[i]);
+        // swap bar from graph list:
+        std::swap(graph[minIndex], graph[i]);
+
+        float xCoord = graph[i].getPosition().x;
+        graph[i].setPosition(
+            graph[minIndex].getPosition().x, 
+            graph[i].getPosition().y
+        );
+        graph[minIndex].setPosition(
+            xCoord, 
+            graph[minIndex].getPosition().y
+        );
+    }
+}
+
+// insertion sort
+void InsertionSort(std::vector<uint32_t>& randomNumberList,
+    std::vector<sf::RectangleShape>& graph,
+    const size_t& listSize)
+{
+    for (int i = 0; i < listSize; i++)
+    {
+        for (int j = 0; j < listSize; j++)
+        {
+
+        }
+    }
+}
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Sorting Algorithm Visualiser!");
     window.setVerticalSyncEnabled(true);
-   
-    //int counter = 0;
 
     sf::Font font;
     if (!font.loadFromFile("./font/arial.ttf"))
     {
         std::cout << "Couldn't load font.." << std::endl;
     }
-
-    /*sf::Text t;
-    t.setFont(font);
-    t.setCharacterSize(20);
-    t.setFillColor(sf::Color::Red);
-    t.setString("Counter = " + std::to_string(counter));
-    t.setOrigin(t.getGlobalBounds().width/2, t.getGlobalBounds().height/2);
-    t.setPosition(100, 50);*/
 
     sf::Text startBtn;
     startBtn.setFont(font);
@@ -67,10 +104,6 @@ int main()
     startBtn.setString("Start!");
     startBtn.setOrigin(startBtn.getGlobalBounds().width/2, startBtn.getGlobalBounds().height/2);
     startBtn.setPosition(100, 50);
-
-    //sf::RectangleShape a(sf::Vector2f(80.f, 120.f));
-    //a.setPosition(20.f, 20.f);
-    //a.setFillColor(sf::Color::Blue);
 
     const size_t MAX_SIZE = 80;
 
@@ -108,8 +141,8 @@ int main()
     size_t listSize = randomNumberList.size();
 
     // print numbers on console:
-    /*for (const auto& value : randomNumberList)
-        std::cout << value << std::endl;*/
+    for (const auto& value : randomNumberList)
+        std::cout << value << std::endl;
 
     bool started = false;
 
@@ -134,12 +167,12 @@ int main()
             }
         }
 
-        //t.setString("Counter = " + std::to_string(counter++));
-
         if (started)
         {
-            // bubble sort algorithm:
+            // bubble sort:
             BubbleSort(randomNumberList, graph, listSize);  
+            // selection sort:
+            //SelectionSort(randomNumberList, graph, listSize);  
         }
         if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
         {
