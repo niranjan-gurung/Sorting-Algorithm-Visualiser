@@ -29,11 +29,11 @@ void BubbleSort(std::vector<uint32_t>& randomNumberList,
                     xCoord, 
                     graph[j-1].getPosition().y
                 );
-                sf::sleep(sf::milliseconds(10));
+                //sf::sleep(sf::milliseconds(10));
                 break;
             }
         }
-        sf::sleep(sf::milliseconds(10));
+        //sf::sleep(sf::milliseconds(10));
         break;
     }
 }
@@ -52,7 +52,7 @@ void SelectionSort(std::vector<uint32_t>& randomNumberList,
             {
                 minIndex = j;
             }
-            sf::sleep(sf::milliseconds(2));
+            //sf::sleep(sf::milliseconds(2));
             break;
         }
         // swap from the numbers list:
@@ -167,6 +167,9 @@ int main()
             }
         }
 
+        window.clear();
+        window.draw(startBtn);
+
         if (started)
         {
             // bubble sort:
@@ -179,11 +182,11 @@ int main()
             started = false;
         }
 
-        window.clear();
-        window.draw(startBtn);
-
+        sf::sleep(sf::milliseconds(10));
         for (const auto& value : graph)
+        {
             window.draw(value);
+        }
 
         window.display();
     }
