@@ -9,10 +9,11 @@ void BubbleSort(std::vector<uint32_t>& randomNumberList,
                 std::vector<sf::RectangleShape>& graph, 
                 const int& listSize)
 {
-    for (int i = listSize; i > 0; i--) 
+    for (int i = listSize-1; i > 0; i--) 
     {
         for (int j = listSize-1; j > 0; j--)
         {
+            graph[j].setFillColor(sf::Color::Green);
             if (randomNumberList[j] < randomNumberList[j-1])
             {
                 // swap from the numbers list:
@@ -29,9 +30,11 @@ void BubbleSort(std::vector<uint32_t>& randomNumberList,
                     xCoord, 
                     graph[j-1].getPosition().y
                 );
+                graph[j].setFillColor(sf::Color::Red);
                 return;
             }
         }
+        graph[i].setFillColor(sf::Color::Green);
     }
 }
 
@@ -77,6 +80,7 @@ void InsertionSort(std::vector<uint32_t>& randomNumberList,
 {
     for (int i = 1; i < listSize; i++)
     {
+        graph[i].setFillColor(sf::Color::Red);
         uint32_t key = randomNumberList[i];
         int j = i-1;
         while (j >= 0 && randomNumberList[j] > key)
@@ -95,9 +99,10 @@ void InsertionSort(std::vector<uint32_t>& randomNumberList,
                 xCoord, 
                 graph[j+1].getPosition().y
             );
-            j--;
+            graph[i].setFillColor(sf::Color::Green);
             return;
         }
+        graph[j].setFillColor(sf::Color::Green);
     }
 }
 
@@ -200,7 +205,7 @@ int main()
             // selection sort:
             //SelectionSort(randomNumberList, graph, listSize);  
             // insertion sort:
-            //InsertionSort(randomNumberList, graph, listSize); 
+            //InsertionSort(randomNumberList, graph, listSize);
         }
         if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
         {
