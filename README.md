@@ -2,14 +2,14 @@
 
 ## Using C++ && SFML
 
-Algorithms Included:
+Algorithms Visualised so far:
 
 - Bubble Sort
-
-TODO:
-
-- Insertion Sort
 - Selection Sort
+- Insertion Sort
+
+Algorithms Left TODO:
+
 - Merge Sort
 - Quick Sort
 - Heap Sort
