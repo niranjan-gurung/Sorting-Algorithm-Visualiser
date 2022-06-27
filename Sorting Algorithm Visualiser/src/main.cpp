@@ -43,17 +43,19 @@ void SelectionSort(std::vector<uint32_t>& randomNumberList,
                     std::vector<sf::RectangleShape>& graph, 
                     const int& listSize)
 {
-    for (int i = listSize-1; i >= 0; i--)
+    bool swapped = false;
+    for (int i = 0; i < listSize-1; i++)
     {
         uint32_t minIndex = i;
-        for (int j = i-1; j >= 0; j--)
+        for (int j = i+1; j < listSize; j++)
         {
-            if (randomNumberList[j] > randomNumberList[minIndex])
+            if (randomNumberList[j] < randomNumberList[minIndex])
             {
                 minIndex = j;
+                swapped = true;
             }
-            break;
         }
+        graph[minIndex].setFillColor(sf::Color::Red);
         // swap from the numbers list:
         std::swap(randomNumberList[minIndex], randomNumberList[i]);
         // swap bar from graph list:
@@ -68,7 +70,10 @@ void SelectionSort(std::vector<uint32_t>& randomNumberList,
             xCoord, 
             graph[minIndex].getPosition().y
         );
-        std::cout << "swapped\n";
+        graph[minIndex].setFillColor(sf::Color::Green);
+     
+        if (swapped)
+            return;
     }
 }
 
@@ -264,10 +269,13 @@ int main()
         {
             // bubble sort:
             //BubbleSort(randomNumberList, graph, listSize);  
+            
             // selection sort:
             SelectionSort(randomNumberList, graph, listSize);  
+            
             // insertion sort:
             //InsertionSort(randomNumberList, graph, listSize);
+            
             // merge sort:
             /*int left = 0;
             int right = listSize-1;
