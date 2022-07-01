@@ -110,64 +110,76 @@ void InsertionSort(std::vector<uint32_t>& randomNumberList,
     }
 }
 
-//void MergeArray(std::vector<uint32_t>& randomNumberList, 
-//                std::vector<sf::RectangleShape>& graph, 
-//                const int& lsize, 
-//                int left, int mid, int right)
-//{
-//    int i = left;
-//    int j = mid+1;
-//    int k = left;
-//
-//    std::vector<uint32_t> tmp(lsize);
-//
-//    while (i <= mid && j <= right)
-//    {
-//        if (randomNumberList[i] <= randomNumberList[j])
-//        {
-//            tmp[k] = randomNumberList[i];
-//            i++; 
-//            k++;
-//        }
-//        else
-//        {
-//            tmp[k] = randomNumberList[j];
-//            j++;
-//            k++;
-//        }
-//    }
-//
-//    while (i <= mid)
-//    {
-//        tmp[k] = randomNumberList[i];
-//        i++;
-//        k++;
-//    }
-//
-//    while (j <= right)
-//    {
-//        tmp[k] = randomNumberList[j];
-//        j++;
-//        k++;
-//    }
-//
-//    for (int p = left; p <= right; p++)
-//        randomNumberList[p] = tmp[p];
-//}
-//
-//void MergeSort(std::vector<uint32_t>& randomNumberList, 
-//                std::vector<sf::RectangleShape>& graph, 
-//                const int& lsize, 
-//                int left, int right)
-//{
-//    if (left == right) return;
-//
-//    int mid = (left+right)/2;
-//    MergeSort(randomNumberList, graph, lsize, left, mid);
-//    MergeSort(randomNumberList, graph, lsize, mid+1, right);
-//
-//    MergeArray(randomNumberList, graph, lsize, left, mid, right);
-//}
+// merge sort
+void Merge(std::vector<uint32_t>& randomNumberList, 
+                std::vector<sf::RectangleShape>& graph, 
+                const int& lsize, 
+                int left, int mid, int right)
+{
+    int i = left;
+    int j = mid+1;
+    int k = left;
+
+    std::vector<uint32_t> tmp(lsize);
+    std::vector<sf::RectangleShape> graphtmp(lsize);
+
+    while (i <= mid && j <= right)
+    {
+        if (randomNumberList[i] <= randomNumberList[j])
+        {
+            std::swap(tmp[k], randomNumberList[i]);
+            graphtmp[k++] = graph[i++];
+        }
+        else
+        {
+            std::swap(tmp[k], randomNumberList[j]);
+            graphtmp[k++] = graph[j++];
+        }
+    }
+
+    while (i <= mid)
+    {
+        std::swap(tmp[k], randomNumberList[i]);
+        graphtmp[k++] = graph[i++];
+    }
+
+    while (j <= right) 
+    {
+        std::swap(tmp[k], randomNumberList[j]);
+        graphtmp[k++] = graph[j++];
+    }
+    
+    for (int p = left; p <= right; p++)
+    {
+        std::swap(tmp[p], randomNumberList[p]);
+        std::swap(graph[p], graphtmp[p]);
+
+        float xCoord = graph[p].getPosition().x;
+        graph[p].setPosition(
+            graphtmp[p].getPosition().x, 
+            graph[p].getPosition().y
+        );
+        graphtmp[p].setPosition(
+            xCoord, 
+            graphtmp[p].getPosition().y
+        );
+    }
+}
+
+void MergeSort(std::vector<uint32_t>& randomNumberList, 
+                std::vector<sf::RectangleShape>& graph, 
+                const int& lsize, 
+                int left, int right)
+{
+    if (left == right) 
+        return;
+
+    int mid = (left+right)/2;
+    MergeSort(randomNumberList, graph, lsize, left, mid);
+    MergeSort(randomNumberList, graph, lsize, mid+1, right);
+
+    Merge(randomNumberList, graph, lsize, left, mid, right);
+}
 
 int main()
 {
@@ -271,15 +283,15 @@ int main()
             //BubbleSort(randomNumberList, graph, listSize);  
             
             // selection sort:
-            SelectionSort(randomNumberList, graph, listSize);  
+            //SelectionSort(randomNumberList, graph, listSize);  
             
             // insertion sort:
             //InsertionSort(randomNumberList, graph, listSize);
             
             // merge sort:
-            /*int left = 0;
+            int left = 0;
             int right = listSize-1;
-            MergeSort(randomNumberList, listSize, left, right);*/
+            MergeSort(randomNumberList, graph, listSize, left, right);
         }
         if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
         {
