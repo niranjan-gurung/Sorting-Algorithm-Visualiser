@@ -114,8 +114,10 @@ void InsertionSort(std::vector<uint32_t>& randomNumberList,
 void Merge(std::vector<uint32_t>& randomNumberList, 
                 std::vector<sf::RectangleShape>& graph, 
                 const int& lsize, 
-                int left, int mid, int right, bool& swapped)
+                int left, int mid, int right)
 {
+    bool swapped = false;
+
     int i = left;
     int j = mid+1;
     int k = left;
@@ -127,78 +129,32 @@ void Merge(std::vector<uint32_t>& randomNumberList,
     {
         if (randomNumberList[i] <= randomNumberList[j])
         {
-            std::swap(tmp[k], randomNumberList[i]);
-            std::swap(graphtmp[k], graph[i]);
-            
-            float xCoord = graph[i].getPosition().x;
-            graph[i].setPosition(
-                graphtmp[k].getPosition().x, 
-                graph[i].getPosition().y
-            );
-            graphtmp[k].setPosition(
-                xCoord, 
-                graphtmp[k].getPosition().y
-            );
-            k++, i++;
-            break;
+            tmp[k] = randomNumberList[i];
+            graphtmp[k++] = graph[i++];
         }
         else
         {
-            std::swap(tmp[k], randomNumberList[j]);
-            std::swap(graphtmp[k], graph[j]);
-            
-            float xCoord = graph[k].getPosition().x;
-            graph[j].setPosition(
-                graphtmp[k].getPosition().x, 
-                graph[j].getPosition().y
-            );
-            graphtmp[k].setPosition(
-                xCoord, 
-                graphtmp[k].getPosition().y
-            );
-            k++, j++;
-            break;
+            tmp[k] = randomNumberList[j];
+            graphtmp[k++] = graph[j++];
         }
+        //break;
     }
 
     while (i <= mid)
     {
-        std::swap(tmp[k], randomNumberList[i]);
-        std::swap(graphtmp[k], graph[i]);
-        
-        float xCoord = graph[i].getPosition().x;
-        graph[i].setPosition(
-            graphtmp[k].getPosition().x, 
-            graph[i].getPosition().y
-        );
-        graphtmp[k].setPosition(
-            xCoord, 
-            graphtmp[k].getPosition().y
-        );
-        k++, i++;
-        //break;
+        tmp[k] = randomNumberList[i];
+        graphtmp[k++] = graph[i++];
     }
 
     while (j <= right) 
     {
-        std::swap(tmp[k], randomNumberList[j]);
-        std::swap(graphtmp[k], graph[j]);
-
-        float xCoord = graph[j].getPosition().x;
-        graph[j].setPosition(
-            graphtmp[k].getPosition().x, 
-            graph[j].getPosition().y
-        );
-        graphtmp[k].setPosition(
-            xCoord, 
-            graphtmp[k].getPosition().y
-        );
-        k++, j++;
-        //break;
+        tmp[k] = randomNumberList[j];
+        graphtmp[k++] = graph[j++];
     }
     
     for (int p = left; p <= right; p++)
     {
+        swapped = true;
         std::swap(tmp[p], randomNumberList[p]);
         std::swap(graph[p], graphtmp[p]);
 
@@ -220,15 +176,13 @@ void MergeSort(std::vector<uint32_t>& randomNumberList,
                 const int& lsize, 
                 int left, int right)
 {
-    bool swapped = false;
     if (left == right) 
         return;
 
     int mid = (left+right)/2;
     MergeSort(randomNumberList, graph, lsize, left, mid);
     MergeSort(randomNumberList, graph, lsize, mid+1, right);
-    
-    Merge(randomNumberList, graph, lsize, left, mid, right, swapped);
+    Merge(randomNumberList, graph, lsize, left, mid, right);
 }
 
 int main()
@@ -293,7 +247,6 @@ int main()
     // size alias:
     const int listSize = randomNumberList.size();
 
-
     bool started = false;
     // for merge sort:
     /*int left = 0;
@@ -356,4 +309,4 @@ int main()
 
         window.display();
     }
-}
+} 

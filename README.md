@@ -11,5 +11,5 @@ Algorithms Visualised so far:
 Algorithms Left TODO:
 
 - Merge Sort
-- Quick Sort
+- Shell Sort
 - Heap Sort
