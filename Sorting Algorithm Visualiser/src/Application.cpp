@@ -147,6 +147,8 @@ void Application::Render()
 	{
 		appWindow.draw(value);
 	}
+
+	//sortAlgorithm.Render();
 	
 	appWindow.display();
 }
