@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <random>
 
+#include "../include/Application.h"
+
 // bubble sort algorithm
 void BubbleSort(std::vector<uint32_t>& randomNumberList, 
                 std::vector<sf::RectangleShape>& graph, 
@@ -116,8 +118,6 @@ void Merge(std::vector<uint32_t>& randomNumberList,
                 const int& lsize, 
                 int left, int mid, int right)
 {
-    bool swapped = false;
-
     int i = left;
     int j = mid+1;
     int k = left;
@@ -130,14 +130,14 @@ void Merge(std::vector<uint32_t>& randomNumberList,
         if (randomNumberList[i] <= randomNumberList[j])
         {
             tmp[k] = randomNumberList[i];
-            graphtmp[k++] = graph[i++];
+            graphtmp[k] = graph[i++];
         }
         else
         {
             tmp[k] = randomNumberList[j];
-            graphtmp[k++] = graph[j++];
+            graphtmp[k] = graph[j++];
         }
-        //break;
+        k++;
     }
 
     while (i <= mid)
@@ -151,13 +151,11 @@ void Merge(std::vector<uint32_t>& randomNumberList,
         tmp[k] = randomNumberList[j];
         graphtmp[k++] = graph[j++];
     }
-    
+
     for (int p = left; p <= right; p++)
     {
-        swapped = true;
         std::swap(tmp[p], randomNumberList[p]);
         std::swap(graph[p], graphtmp[p]);
-
         float xCoord = graph[p].getPosition().x;
         graph[p].setPosition(
             graphtmp[p].getPosition().x, 
@@ -167,7 +165,6 @@ void Merge(std::vector<uint32_t>& randomNumberList,
             xCoord, 
             graphtmp[p].getPosition().y
         );
-        //return;
     }
 }
 
@@ -176,17 +173,27 @@ void MergeSort(std::vector<uint32_t>& randomNumberList,
                 const int& lsize, 
                 int left, int right)
 {
-    if (left == right) 
+    if (left == right)
         return;
 
     int mid = (left+right)/2;
     MergeSort(randomNumberList, graph, lsize, left, mid);
     MergeSort(randomNumberList, graph, lsize, mid+1, right);
-    Merge(randomNumberList, graph, lsize, left, mid, right);
+    Merge(randomNumberList, graph, lsize, left, mid, right); 
 }
 
 int main()
 {
+    Application app;
+    app.Run();
+
+    /*while (app.isOpen())
+    {
+        app.Update();
+        app.Render();
+    }*/
+
+
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Sorting Algorithm Visualiser!");
     window.setVerticalSyncEnabled(true);
 
@@ -294,6 +301,7 @@ int main()
             // merge sort:
             int left = 0;
             int right = listSize-1;
+            //int recursionCounter = 0;
             MergeSort(randomNumberList, graph, listSize, left, right);
         }
         if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
