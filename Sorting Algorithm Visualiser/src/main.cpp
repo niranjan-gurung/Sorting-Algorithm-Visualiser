@@ -6,40 +6,6 @@
 
 #include "../include/Application.h"
 
-//// bubble sort algorithm
-//void BubbleSort(std::vector<uint32_t>& randomNumberList, 
-//                std::vector<sf::RectangleShape>& graph, 
-//                const int& listSize)
-//{
-//    for (int i = listSize-1; i > 0; i--) 
-//    {
-//        for (int j = listSize-1; j > 0; j--)
-//        {
-//            graph[j].setFillColor(sf::Color::Green);
-//            if (randomNumberList[j] < randomNumberList[j-1])
-//            {
-//                // swap from the numbers list:
-//                std::swap(randomNumberList[j], randomNumberList[j-1]);
-//                // swap bar from graph list:
-//                std::swap(graph[j], graph[j-1]);
-//
-//                float xCoord = graph[j].getPosition().x;
-//                graph[j].setPosition(
-//                    graph[j-1].getPosition().x, 
-//                    graph[j].getPosition().y
-//                );
-//                graph[j-1].setPosition(
-//                    xCoord, 
-//                    graph[j-1].getPosition().y
-//                );
-//                graph[j].setFillColor(sf::Color::Red);
-//                return;
-//            }
-//        }
-//        graph[i].setFillColor(sf::Color::Green);
-//    }
-//}
-//
 //// selection sort
 //void SelectionSort(std::vector<uint32_t>& randomNumberList, 
 //                    std::vector<sf::RectangleShape>& graph, 
