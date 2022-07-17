@@ -1,10 +1,8 @@
 #include "../include/BubbleSort.h"
 
 BubbleSort::BubbleSort(sf::RenderWindow* window)
-	: SortInterface(window)
-{
-	
-}
+	: SortInterface(window), started(false) 
+{}
 
 // bubble sort algorithm
 void BubbleSort::Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList, 
@@ -33,7 +31,7 @@ void BubbleSort::Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList,
 					graph[j-1].getPosition().y
 				);
 				graph[j].setFillColor(sf::Color::Red);
-				//break;
+				return;
 			}
 		}
 		graph[i].setFillColor(sf::Color::Green);
@@ -56,20 +54,19 @@ void BubbleSort::Update()
 			if (startBtn.getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window))))
 			{
 				std::cout << "start button clicked.\n";
-				
 				startBtn.setString("");
-				Sort(randomNumberList, graph, listSize);
+				started = true;
 			}
 			break;
 		}
 	}
+	if (started)
+		Sort(randomNumberList, graph, listSize);
 }
 
 void BubbleSort::Render() 
 {
 	window->draw(startBtn);
 	for (const auto& value : graph)
-	{
 		window->draw(value);
-	}
 }

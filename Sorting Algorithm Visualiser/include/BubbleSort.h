@@ -14,4 +14,7 @@ public:
 
 	void Update() override;
 	void Render() override;
+
+private:
+	bool started;
 };
