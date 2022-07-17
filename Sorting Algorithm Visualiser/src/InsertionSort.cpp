@@ -1,11 +1,11 @@
 #include "../include/InsertionSort.h"
 
 InsertionSort::InsertionSort(sf::RenderWindow* window)
-	: SortInterface(window)
-{}
+	: SortInterface(window) {}
 
 // Insertion sort algorithm:
-void InsertionSort::Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList, 
+void InsertionSort::Sort(
+		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
 		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
 		const int& listSize)
 {

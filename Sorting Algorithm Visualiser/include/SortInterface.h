@@ -15,6 +15,17 @@ public:
 
 	virtual void Update() = 0;
 	virtual void Render() = 0;
+	virtual void Sort(
+		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
+		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
+		const int& listSize);
+	// function overload for merge sort:
+	virtual void Sort(
+		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
+		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
+		const int& listSize, 
+		int left, 
+		int right) = 0;
 
 protected:
 	sf::RenderWindow* window;
@@ -81,3 +92,9 @@ inline void SortInterface::SetupList()
 		barGraphSpacing += 15;
 	}
 }
+
+// empty implementation (needed to not conflict with mergesort function):
+inline void SortInterface::Sort(
+	std::array<uint32_t, MAX_SIZE>& randomNumberList, 
+	std::array<sf::RectangleShape, MAX_SIZE>& graph, 
+	const int& listSize) {}

@@ -4,6 +4,7 @@
 #include "BubbleSort.h"
 #include "InsertionSort.h"
 #include "SelectionSort.h"
+#include "MergeSort.h"
 
 class Application
 {

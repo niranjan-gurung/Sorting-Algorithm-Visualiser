@@ -5,7 +5,7 @@ Application::Application()
 	appWindow.create(sf::VideoMode(1280, 720), "Sorting Algorithm Visualiser!");
 	appWindow.setVerticalSyncEnabled(true);
 
-	sortAlgorithm = std::make_unique<SelectionSort>(&appWindow);
+	sortAlgorithm = std::make_unique<MergeSort>(&appWindow);
 }
 
 Application::~Application() {}

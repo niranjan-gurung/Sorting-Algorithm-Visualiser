@@ -1,11 +1,11 @@
 #include "../include/BubbleSort.h"
 
 BubbleSort::BubbleSort(sf::RenderWindow* window)
-	: SortInterface(window)
-{}
+	: SortInterface(window) {}
 
 // Bubble sort algorithm:
-void BubbleSort::Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList, 
+void BubbleSort::Sort(
+		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
 		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
 		const int& listSize)
 {

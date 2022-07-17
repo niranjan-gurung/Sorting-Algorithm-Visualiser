@@ -1,11 +1,11 @@
 #include "../include/SelectionSort.h"
 
 SelectionSort::SelectionSort(sf::RenderWindow* window) 
-	: SortInterface(window)
-{}
+	: SortInterface(window) {}
 
 // Selection sort algorithm:
-void SelectionSort::Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList, 
+void SelectionSort::Sort(
+		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
 		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
 		const int& listSize)
 {
