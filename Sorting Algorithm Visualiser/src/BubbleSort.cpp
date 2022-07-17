@@ -1,10 +1,10 @@
 #include "../include/BubbleSort.h"
 
 BubbleSort::BubbleSort(sf::RenderWindow* window)
-	: SortInterface(window), started(false) 
+	: SortInterface(window)
 {}
 
-// bubble sort algorithm
+// Bubble sort algorithm:
 void BubbleSort::Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList, 
 		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
 		const int& listSize)
@@ -31,14 +31,12 @@ void BubbleSort::Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList,
 					graph[j-1].getPosition().y
 				);
 				graph[j].setFillColor(sf::Color::Red);
+				index = j;
 				return;
 			}
 		}
-		graph[i].setFillColor(sf::Color::Green);
 	}
 }
-
-BubbleSort::~BubbleSort() {}
 
 void BubbleSort::Update() 
 {
@@ -55,13 +53,21 @@ void BubbleSort::Update()
 			{
 				std::cout << "start button clicked.\n";
 				startBtn.setString("");
-				started = true;
+				isAppRunning = true;
 			}
 			break;
 		}
 	}
-	if (started)
+
+	if (isAppRunning)
+	{
 		Sort(randomNumberList, graph, listSize);
+		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+		{
+			graph[index].setFillColor(sf::Color::Green);
+			isAppRunning = false;
+		}
+	}
 }
 
 void BubbleSort::Render() 
@@ -70,3 +76,5 @@ void BubbleSort::Render()
 	for (const auto& value : graph)
 		window->draw(value);
 }
+
+BubbleSort::~BubbleSort() {}

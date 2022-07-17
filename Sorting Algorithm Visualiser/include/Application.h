@@ -1,9 +1,9 @@
 #pragma once
-#include <iostream>
 #include <memory>
 
-#include "SortInterface.h"
 #include "BubbleSort.h"
+#include "InsertionSort.h"
+#include "SelectionSort.h"
 
 class Application
 {

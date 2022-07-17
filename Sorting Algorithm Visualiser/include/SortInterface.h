@@ -1,9 +1,7 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <array>
-#include <algorithm>
 #include <random>
-#include <iostream>
+#include <algorithm>
 
 #include "Utility.h"
 
@@ -34,12 +32,17 @@ protected:
 	sf::Font font;
 	sf::Text startBtn;
 
+	// track is start button is clicked:
+	bool isAppRunning;
+	int index;
+
 private:
 	void SetupList();
 };
 
 inline SortInterface::SortInterface(sf::RenderWindow* window)
-	: window(window), listSize(randomNumberList.size())
+	: window(window), listSize(randomNumberList.size()), 
+	isAppRunning(false), index(0)
 {
 	SetupList();
 	util::LoadFont(font);

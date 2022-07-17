@@ -248,9 +248,6 @@ int main()
 
     //    if (started)
     //    {
-    //        // bubble sort:
-    //        //BubbleSort(randomNumberList, graph, listSize);  
-    //        
     //        // selection sort:
     //        //SelectionSort(randomNumberList, graph, listSize);  
     //        

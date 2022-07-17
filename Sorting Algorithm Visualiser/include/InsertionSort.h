@@ -2,11 +2,11 @@
 
 #include "SortInterface.h"
 
-class BubbleSort : public SortInterface
+class InsertionSort : public SortInterface
 {
 public:
-	BubbleSort(sf::RenderWindow* window);
-	~BubbleSort();
+	InsertionSort(sf::RenderWindow* window);
+	~InsertionSort();
 
 	void Sort(std::array<uint32_t, MAX_SIZE>& randomNumberList, 
 			std::array<sf::RectangleShape, MAX_SIZE>& graph, 
