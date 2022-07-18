@@ -54,7 +54,9 @@ void SelectionSort::Update()
 			break;
 
 		case sf::Event::MouseButtonPressed:
-			if (startBtn.getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window))))
+			if (startBtn.getGlobalBounds().contains(
+				window->mapPixelToCoords(
+					sf::Mouse::getPosition(*window))))
 			{
 				std::cout << "start button clicked.\n";
 				startBtn.setString("");

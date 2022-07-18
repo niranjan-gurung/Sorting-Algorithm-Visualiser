@@ -36,7 +36,8 @@ public:
 		std::array<u32, MAX_SIZE>& randomNumberList, 
 		std::array<Rect, MAX_SIZE>& graph,  
 		int left, 
-		int right);
+		int right,
+		bool& merged);
 
 protected:
 	std::shared_ptr<sf::RenderWindow> window;
@@ -112,4 +113,5 @@ inline void SortInterface::Sort(
 	std::array<u32, MAX_SIZE>& randomNumberList, 
 	std::array<Rect, MAX_SIZE>& graph, 
 	int left, 
-	int right) {}
+	int right,
+	bool& merged) {}

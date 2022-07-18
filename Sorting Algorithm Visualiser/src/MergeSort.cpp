@@ -1,26 +1,13 @@
 #include "..\include\MergeSort.h"
 
 MergeSort::MergeSort(std::shared_ptr<sf::RenderWindow> window)
-	: SortInterface(window) {}
+	: SortInterface(window), merged(false) {}
 
-void MergeSort::Sort(
-		std::array<u32, MAX_SIZE>& randomNumberList, 
-		std::array<Rect, MAX_SIZE>& graph, 
-		int left,
-		int right)
-{
-	if (left == right)
-		return;
-	
-	int mid = (left+right)/2;
-	Sort(randomNumberList, graph, left, mid);
-	Sort(randomNumberList, graph, mid+1, right);
-	Merge(randomNumberList, graph, left, mid, right); 
-}
-
-void MergeSort::Merge(
+bool MergeSort::Merge(
 	std::array<u32, MAX_SIZE>& randomNumberList, 
-	std::array<Rect, MAX_SIZE>& graph, 
+	std::array<Rect, MAX_SIZE>& graph,
+	std::array<u32, MAX_SIZE>& tmp,
+	std::array<Rect, MAX_SIZE>& graphtmp,
 	int left, 
 	int mid, 
 	int right)
@@ -29,15 +16,16 @@ void MergeSort::Merge(
 	int j = mid+1;
 	int k = left;
 
-	// temporary lists to hold sorted values before moving them back into original array:
-	std::vector<u32> tmp(MAX_SIZE);
-	std::vector<Rect> graphtmp(MAX_SIZE);
+	/* checks if value being copied from tmp list into original list is the exact same:
+	 * if value is the same, don't swap cause the value is already at correct place.
+	 */
+	bool swap;
 	
 	while (i <= mid && j <= right)
 	{
 	    if (randomNumberList[i] <= randomNumberList[j])
 	    {
-	        tmp[k] = randomNumberList[i];
+			tmp[k] = randomNumberList[i];
 	        graphtmp[k] = graph[i++];
 	    }
 	    else
@@ -62,18 +50,51 @@ void MergeSort::Merge(
 	
 	for (int p = left; p <= right; p++)
 	{
-	    std::swap(tmp[p], randomNumberList[p]);
-	    std::swap(graph[p], graphtmp[p]);
-	    float xCoord = graph[p].getPosition().x;
-	    graph[p].setPosition(
-	        graphtmp[p].getPosition().x, 
-	        graph[p].getPosition().y
-	    );
-	    graphtmp[p].setPosition(
-	        xCoord, 
-	        graphtmp[p].getPosition().y
-	    );
+		// method returns false if the value being copied is the same as the original:
+		if (tmp[p] == randomNumberList[p])
+		{
+			swap = false;
+		}
+		else
+		{
+			swap = true;
+			std::swap(tmp[p], randomNumberList[p]);
+		    std::swap(graph[p], graphtmp[p]);
+			float xCoord = graph[p].getPosition().x;
+			graph[p].setPosition(
+				graphtmp[p].getPosition().x, 
+				graph[p].getPosition().y
+			);
+			graphtmp[p].setPosition(
+				xCoord, 
+				graphtmp[p].getPosition().y
+			);
+			//return swap;
+		}
 	}
+	return swap;
+}
+
+void MergeSort::Sort(
+		std::array<u32, MAX_SIZE>& randomNumberList, 
+		std::array<Rect, MAX_SIZE>& graph, 
+		int left,
+		int right,
+		bool& merged)
+{
+	if (left == right)
+		return;
+
+	int mid = (left+right)/2;
+	
+	Sort(randomNumberList, graph, left, mid, merged);
+	if (merged) return;
+	
+	Sort(randomNumberList, graph, mid+1, right, merged);
+	if (merged) return;
+	
+	if (Merge(randomNumberList, graph, tmp, graphtmp, left, mid, right))
+		merged = true;
 }
 
 void MergeSort::Update()
@@ -87,7 +108,9 @@ void MergeSort::Update()
 			break;
 
 		case sf::Event::MouseButtonPressed:
-			if (startBtn.getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window))))
+			if (startBtn.getGlobalBounds().contains(
+				window->mapPixelToCoords(
+					sf::Mouse::getPosition(*window))))
 			{
 				std::cout << "start button clicked.\n";
 				startBtn.setString("");
@@ -101,12 +124,13 @@ void MergeSort::Update()
 	{
 		int left = 0;
 		int right = MAX_SIZE-1;
-		Sort(randomNumberList, graph, left, right);
-		/*if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+		merged = false;
+		Sort(randomNumberList, graph, left, right, merged);
+		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
-			graph[index].setFillColor(sf::Color::Green);
+			//graph[index].setFillColor(sf::Color::Green);
 			isAppRunning = false;
-		}*/
+		}
 	}
 }
 
