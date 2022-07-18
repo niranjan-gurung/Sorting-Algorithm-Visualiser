@@ -5,13 +5,12 @@
 class BubbleSort : public SortInterface
 {
 public:
-	BubbleSort(sf::RenderWindow* window);
+	BubbleSort(std::shared_ptr<sf::RenderWindow> window);
 	~BubbleSort();
 
 	void Update() override;
 	void Render() override;
 	void Sort(
-		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
-		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
-		const int& listSize) override;
+		std::array<u32, MAX_SIZE>& randomNumberList, 
+		std::array<Rect, MAX_SIZE>& graph) override;
 };

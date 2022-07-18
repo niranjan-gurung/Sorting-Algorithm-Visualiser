@@ -1,18 +1,17 @@
 #include "../include/InsertionSort.h"
 
-InsertionSort::InsertionSort(sf::RenderWindow* window)
+InsertionSort::InsertionSort(std::shared_ptr<sf::RenderWindow> window)
 	: SortInterface(window) {}
 
 // Insertion sort algorithm:
 void InsertionSort::Sort(
-		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
-		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
-		const int& listSize)
+		std::array<u32, MAX_SIZE>& randomNumberList, 
+		std::array<Rect, MAX_SIZE>& graph)
 {
-	for (int i = 1; i < listSize; i++)
+	for (int i = 1; i < MAX_SIZE; i++)
 	{
 		graph[i].setFillColor(sf::Color::Red);
-		uint32_t key = randomNumberList[i];
+		u32 key = randomNumberList[i];
 		int j = i-1;
 		while (j >= 0 && randomNumberList[j] > key)
 		{
@@ -61,7 +60,7 @@ void InsertionSort::Update()
 
 	if (isAppRunning)
 	{
-		Sort(randomNumberList, graph, listSize);
+		Sort(randomNumberList, graph);
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(sf::Color::Green);

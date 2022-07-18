@@ -1,19 +1,18 @@
 #include "../include/SelectionSort.h"
 
-SelectionSort::SelectionSort(sf::RenderWindow* window) 
+SelectionSort::SelectionSort(std::shared_ptr<sf::RenderWindow> window) 
 	: SortInterface(window) {}
 
 // Selection sort algorithm:
 void SelectionSort::Sort(
-		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
-		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
-		const int& listSize)
+		std::array<u32, MAX_SIZE>& randomNumberList, 
+		std::array<Rect, MAX_SIZE>& graph)
 {
 	bool swapped = false;
-	for (int i = 0; i < listSize-1; i++)
+	for (int i = 0; i < MAX_SIZE-1; i++)
 	{
-	    uint32_t minIndex = i;
-	    for (int j = i+1; j < listSize; j++)
+	    u32 minIndex = i;
+	    for (int j = i+1; j < MAX_SIZE; j++)
 	    {
 	        if (randomNumberList[j] < randomNumberList[minIndex])
 	        {
@@ -67,7 +66,7 @@ void SelectionSort::Update()
 
 	if (isAppRunning)
 	{
-		Sort(randomNumberList, graph, listSize);
+		Sort(randomNumberList, graph);
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(sf::Color::Green);

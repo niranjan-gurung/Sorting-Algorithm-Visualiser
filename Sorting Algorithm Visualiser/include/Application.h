@@ -6,8 +6,15 @@
 #include "SelectionSort.h"
 #include "MergeSort.h"
 
-namespace SortVisualiser {
-
+/* Main Application:
+ * 
+ * - Init window
+ * - BubbleSort by default
+ * - Handles Update and Render methods of sorting algorithms
+ * - Controls the amount of time slept in between renders 
+ */
+namespace SortVisualiser 
+{
 	class Application
 	{
 	public:
@@ -19,9 +26,11 @@ namespace SortVisualiser {
 		void Render();
 
 	private:
-		sf::RenderWindow appWindow;
+		// appWindow is shared amongst the rest of the sorting algorithm classes:
+		std::shared_ptr<sf::RenderWindow> appWindow;
 		sf::Event event;
 	
 		std::unique_ptr<SortInterface> sortAlgorithm;
+		u32 sleepTime;
 	};
 }

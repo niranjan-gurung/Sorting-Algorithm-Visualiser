@@ -1,12 +1,11 @@
 #include "..\include\MergeSort.h"
 
-MergeSort::MergeSort(sf::RenderWindow* window)
+MergeSort::MergeSort(std::shared_ptr<sf::RenderWindow> window)
 	: SortInterface(window) {}
 
 void MergeSort::Sort(
-		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
-		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
-		const int& listSize,
+		std::array<u32, MAX_SIZE>& randomNumberList, 
+		std::array<Rect, MAX_SIZE>& graph, 
 		int left,
 		int right)
 {
@@ -14,15 +13,14 @@ void MergeSort::Sort(
 		return;
 	
 	int mid = (left+right)/2;
-	Sort(randomNumberList, graph, listSize, left, mid);
-	Sort(randomNumberList, graph, listSize, mid+1, right);
-	Merge(randomNumberList, graph, listSize, left, mid, right); 
+	Sort(randomNumberList, graph, left, mid);
+	Sort(randomNumberList, graph, mid+1, right);
+	Merge(randomNumberList, graph, left, mid, right); 
 }
 
 void MergeSort::Merge(
-	std::array<uint32_t, MAX_SIZE>& randomNumberList, 
-	std::array<sf::RectangleShape, MAX_SIZE>& graph, 
-	const int& listSize, 
+	std::array<u32, MAX_SIZE>& randomNumberList, 
+	std::array<Rect, MAX_SIZE>& graph, 
 	int left, 
 	int mid, 
 	int right)
@@ -30,9 +28,10 @@ void MergeSort::Merge(
 	int i = left;
 	int j = mid+1;
 	int k = left;
-	
-	std::vector<uint32_t> tmp(listSize);
-	std::vector<sf::RectangleShape> graphtmp(listSize);
+
+	// temporary lists to hold sorted values before moving them back into original array:
+	std::vector<u32> tmp(MAX_SIZE);
+	std::vector<Rect> graphtmp(MAX_SIZE);
 	
 	while (i <= mid && j <= right)
 	{
@@ -101,8 +100,8 @@ void MergeSort::Update()
 	if (isAppRunning)
 	{
 		int left = 0;
-		int right = listSize-1;
-		Sort(randomNumberList, graph, listSize, left, right);
+		int right = MAX_SIZE-1;
+		Sort(randomNumberList, graph, left, right);
 		/*if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(sf::Color::Green);

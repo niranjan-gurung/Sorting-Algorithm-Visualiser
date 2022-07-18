@@ -1,18 +1,22 @@
 #include "../include/Application.h"
 
-namespace SortVisualiser {
-
-	Application::Application()
+namespace SortVisualiser 
+{
+	Application::Application() 
+		: sleepTime(30)
 	{
-		appWindow.create(sf::VideoMode(1280, 720), "Sorting Algorithm Visualiser!");
-		appWindow.setVerticalSyncEnabled(true);
+		appWindow = std::make_shared<sf::RenderWindow>(
+			sf::VideoMode(1280, 720),
+			"Sorting Algorithm Visualiser!"
+		);
+		appWindow->setVerticalSyncEnabled(true);
 
-		sortAlgorithm = std::make_unique<SelectionSort>(&appWindow);
+		sortAlgorithm = std::make_unique<MergeSort>(appWindow);
 	}
 
 	void Application::Run()
 	{
-		while (appWindow.isOpen())
+		while (appWindow->isOpen())
 		{
 			Update();
 			Render();
@@ -24,18 +28,19 @@ namespace SortVisualiser {
 		if (sortAlgorithm != nullptr)
 			sortAlgorithm->Update();
 		else
-			appWindow.close();
+			appWindow->close();
 	}
 
 	void Application::Render()
 	{
-		appWindow.clear();
+		appWindow->clear();
 
-		sf::sleep(sf::milliseconds(30));
+		// pausing between renders to show sorting animation:
+		sf::sleep(sf::milliseconds(sleepTime));
 		if (sortAlgorithm != nullptr)
 			sortAlgorithm->Render();
 	
-		appWindow.display();
+		appWindow->display();
 	}
 
 	Application::~Application() {}

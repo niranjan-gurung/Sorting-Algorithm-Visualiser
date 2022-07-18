@@ -1,17 +1,16 @@
 #include "../include/BubbleSort.h"
 
-BubbleSort::BubbleSort(sf::RenderWindow* window)
+BubbleSort::BubbleSort(std::shared_ptr<sf::RenderWindow> window)
 	: SortInterface(window) {}
 
 // Bubble sort algorithm:
 void BubbleSort::Sort(
-		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
-		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
-		const int& listSize)
+		std::array<u32, MAX_SIZE>& randomNumberList, 
+		std::array<Rect, MAX_SIZE>& graph)
 {
-	for (int i = listSize-1; i > 0; i--) 
+	for (int i = MAX_SIZE-1; i > 0; i--) 
 	{
-		for (int j = listSize-1; j > 0; j--)
+		for (int j = MAX_SIZE-1; j > 0; j--)
 		{
 			graph[j].setFillColor(sf::Color::Green);
 			if (randomNumberList[j] < randomNumberList[j-1])
@@ -61,7 +60,7 @@ void BubbleSort::Update()
 
 	if (isAppRunning)
 	{
-		Sort(randomNumberList, graph, listSize);
+		Sort(randomNumberList, graph);
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(sf::Color::Green);

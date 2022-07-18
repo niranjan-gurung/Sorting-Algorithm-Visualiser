@@ -5,13 +5,12 @@
 class SelectionSort : public SortInterface
 {
 public:
-	SelectionSort(sf::RenderWindow* window);
+	SelectionSort(std::shared_ptr<sf::RenderWindow> window);
 	~SelectionSort();
 
 	void Update() override;
 	void Render() override;
 	void Sort(
-		std::array<uint32_t, MAX_SIZE>& randomNumberList, 
-		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
-		const int& listSize) override;
+		std::array<u32, MAX_SIZE>& randomNumberList, 
+		std::array<Rect, MAX_SIZE>& graph) override;
 };

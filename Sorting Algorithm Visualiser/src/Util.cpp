@@ -1,7 +1,7 @@
 #include "../include/Util.h"
 
-namespace util {
-
+namespace util 
+{
 	void LoadFont(sf::Font& font)
 	{
 		if (!font.loadFromFile("./font/arial.ttf"))
