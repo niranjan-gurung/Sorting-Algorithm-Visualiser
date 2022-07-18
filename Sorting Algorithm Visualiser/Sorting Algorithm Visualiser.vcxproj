@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Util.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\BubbleSort.cpp" />
     <ClCompile Include="src\InsertionSort.cpp" />
@@ -165,7 +166,7 @@
     <ClInclude Include="include\MergeSort.h" />
     <ClInclude Include="include\SelectionSort.h" />
     <ClInclude Include="include\SortInterface.h" />
-    <ClInclude Include="include\Utility.h" />
+    <ClInclude Include="include\Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

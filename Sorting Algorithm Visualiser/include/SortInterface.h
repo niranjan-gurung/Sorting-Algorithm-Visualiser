@@ -3,7 +3,7 @@
 #include <random>
 #include <algorithm>
 
-#include "Utility.h"
+#include "Util.h"
 
 constexpr int MAX_SIZE = 80;
 
@@ -25,7 +25,7 @@ public:
 		std::array<sf::RectangleShape, MAX_SIZE>& graph, 
 		const int& listSize, 
 		int left, 
-		int right) = 0;
+		int right);
 
 protected:
 	sf::RenderWindow* window;
@@ -98,3 +98,10 @@ inline void SortInterface::Sort(
 	std::array<uint32_t, MAX_SIZE>& randomNumberList, 
 	std::array<sf::RectangleShape, MAX_SIZE>& graph, 
 	const int& listSize) {}
+
+inline void SortInterface::Sort(
+	std::array<uint32_t, MAX_SIZE>& randomNumberList, 
+	std::array<sf::RectangleShape, MAX_SIZE>& graph, 
+	const int& listSize, 
+	int left, 
+	int right) {}

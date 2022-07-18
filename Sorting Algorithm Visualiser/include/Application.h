@@ -6,19 +6,22 @@
 #include "SelectionSort.h"
 #include "MergeSort.h"
 
-class Application
-{
-public:
-	Application();
-	~Application();
+namespace SortVisualiser {
 
-	void Run();
-	void Update();
-	void Render();
+	class Application
+	{
+	public:
+		Application();
+		~Application();
 
-private:
-	sf::RenderWindow appWindow;
-	sf::Event event;
+		void Run();
+		void Update();
+		void Render();
+
+	private:
+		sf::RenderWindow appWindow;
+		sf::Event event;
 	
-	std::unique_ptr<SortInterface> sortAlgorithm;
-};
+		std::unique_ptr<SortInterface> sortAlgorithm;
+	};
+}

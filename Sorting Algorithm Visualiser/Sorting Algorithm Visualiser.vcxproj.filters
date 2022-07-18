@@ -33,6 +33,9 @@
     <ClCompile Include="src\MergeSort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -44,7 +47,7 @@
     <ClInclude Include="include\BubbleSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Utility.h">
+    <ClInclude Include="include\Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\InsertionSort.h">
