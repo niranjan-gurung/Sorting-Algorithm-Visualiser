@@ -20,6 +20,10 @@ bool MergeSort::Merge(
 	 * if value is the same, don't swap cause the value is already at correct place.
 	 */
 	bool swap;
+
+	// temporary lists to hold sorted values before moving them back into original array:
+	/*std::vector<u32> tmp(MAX_SIZE);
+	std::vector<Rect> graphtmp(MAX_SIZE);*/
 	
 	while (i <= mid && j <= right)
 	{
@@ -57,9 +61,8 @@ bool MergeSort::Merge(
 		}
 		else
 		{
-			swap = true;
 			std::swap(tmp[p], randomNumberList[p]);
-		    std::swap(graph[p], graphtmp[p]);
+			std::swap(graph[p], graphtmp[p]);
 			float xCoord = graph[p].getPosition().x;
 			graph[p].setPosition(
 				graphtmp[p].getPosition().x, 
@@ -69,6 +72,48 @@ bool MergeSort::Merge(
 				xCoord, 
 				graphtmp[p].getPosition().y
 			);
+
+			/*if (p == right)
+			{
+				std::swap(tmp[p], randomNumberList[p]);
+				std::swap(graph[p], graphtmp[p]);
+				float xCoord = graph[p].getPosition().x;
+				graph[p].setPosition(
+					graphtmp[p].getPosition().x, 
+					graph[p].getPosition().y
+				);
+				graphtmp[p].setPosition(
+					xCoord, 
+					graphtmp[p].getPosition().y
+				);
+			}*/
+			/*else
+			{
+				std::swap(tmp[p], randomNumberList[p]);
+				std::swap(graph[p], graphtmp[p]);
+				float xCoord = graph[p].getPosition().x;
+				graph[p].setPosition(
+					graphtmp[p].getPosition().x, 
+					graph[p].getPosition().y
+				);
+				graphtmp[p].setPosition(
+					xCoord, 
+					graphtmp[p].getPosition().y
+				);
+				
+				std::swap(randomNumberList[p+1], tmp[p]);
+				std::swap(graph[p+1], graphtmp[p]);
+				float nextXPos = graph[p+1].getPosition().x;
+				graph[p+1].setPosition(
+					graphtmp[p].getPosition().x, 
+					graph[p+1].getPosition().y
+				);
+				graphtmp[p].setPosition(
+					nextXPos,
+					graphtmp[p].getPosition().y
+				);
+			}*/
+			swap = true;
 			//return swap;
 		}
 	}
