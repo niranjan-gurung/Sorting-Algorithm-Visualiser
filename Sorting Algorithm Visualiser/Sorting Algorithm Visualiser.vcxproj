@@ -151,13 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\algorithms\BubbleSort.cpp" />
+    <ClCompile Include="src\algorithms\InsertionSort.cpp" />
+    <ClCompile Include="src\algorithms\MergeSort.cpp" />
+    <ClCompile Include="src\algorithms\SelectionSort.cpp" />
     <ClCompile Include="src\Util.cpp" />
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\BubbleSort.cpp" />
-    <ClCompile Include="src\InsertionSort.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MergeSort.cpp" />
-    <ClCompile Include="src\SelectionSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h" />
