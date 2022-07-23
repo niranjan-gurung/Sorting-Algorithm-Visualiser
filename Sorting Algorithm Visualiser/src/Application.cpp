@@ -1,7 +1,7 @@
 #include "../include/Application.h"
 
-namespace SortVisualiser 
-{
+namespace SortVisualiser {
+	
 	Application::Application() 
 		: sleepTime(30)
 	{
@@ -11,7 +11,7 @@ namespace SortVisualiser
 		);
 		appWindow->setVerticalSyncEnabled(true);
 
-		sortAlgorithm = std::make_unique<MergeSort>(appWindow);
+		sortAlgorithm = std::make_unique<InsertionSort>(appWindow);
 	}
 
 	void Application::Run()

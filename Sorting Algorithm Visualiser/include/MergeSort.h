@@ -21,8 +21,8 @@ private:
 	bool Merge(
 		std::array<u32, MAX_SIZE>& randomNumberList, 
 		std::array<Rect, MAX_SIZE>& graph, 
-		std::array<u32, MAX_SIZE>& tmp,
-		std::array<Rect, MAX_SIZE>& graphtmp,
+		const std::array<u32, MAX_SIZE>& ncopy,
+		const std::array<Rect, MAX_SIZE>& gcopy,
 		int left, 
 		int mid, 
 		int right);
@@ -31,6 +31,6 @@ private:
 	bool merged;
 
 	// temporary lists to hold sorted values before moving them back into original array:
-	std::array<u32, MAX_SIZE> tmp;
-	std::array<Rect, MAX_SIZE> graphtmp;
+	std::array<u32, MAX_SIZE> numListCopy;
+	std::array<Rect, MAX_SIZE> graphListCopy;
 };

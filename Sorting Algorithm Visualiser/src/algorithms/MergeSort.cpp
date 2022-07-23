@@ -1,13 +1,25 @@
 #include "../../include/MergeSort.h"
 
 MergeSort::MergeSort(std::shared_ptr<sf::RenderWindow> window)
-	: SortInterface(window), merged(false) {}
+	: SortInterface(window), merged(false)
+{
+	/*std::copy(
+		std::begin(randomNumberList), 
+		std::end(randomNumberList), 
+		std::begin(numListCopy)
+	);
+	std::copy(
+		std::begin(graph), 
+		std::end(graph), 
+		std::begin(graphListCopy)
+	);*/
+}
 
 bool MergeSort::Merge(
 	std::array<u32, MAX_SIZE>& randomNumberList, 
 	std::array<Rect, MAX_SIZE>& graph,
-	std::array<u32, MAX_SIZE>& tmp,
-	std::array<Rect, MAX_SIZE>& graphtmp,
+	const std::array<u32, MAX_SIZE>& ncopy,
+	const std::array<Rect, MAX_SIZE>& gcopy,
 	int left, 
 	int mid, 
 	int right)
@@ -16,26 +28,23 @@ bool MergeSort::Merge(
 	int j = mid+1;
 	int k = left;
 
-	/* checks if value being copied from tmp list into original list is the exact same:
-	* if value is the same, don't swap cause the value is already at correct place.
-	*/
-	bool swap;
-
 	// temporary lists to hold sorted values before moving them back into original array:
-	/*std::vector<u32> tmp(MAX_SIZE);
-	std::vector<Rect> graphtmp(MAX_SIZE);*/
+	std::vector<u32> tmp(right+1);
+	std::vector<Rect> graphtmp(right+1);
 
 	while (i <= mid && j <= right)
 	{
 		if (randomNumberList[i] <= randomNumberList[j])
 		{
 			tmp[k] = randomNumberList[i];
-			graphtmp[k] = graph[i++];
+			graphtmp[k] = graph[i];
+			i++;
 		}
 		else
 		{
 			tmp[k] = randomNumberList[j];
-			graphtmp[k] = graph[j++];
+			graphtmp[k] = graph[j];
+			j++;
 		}
 		k++;
 	}
@@ -43,26 +52,34 @@ bool MergeSort::Merge(
 	while (i <= mid)
 	{
 		tmp[k] = randomNumberList[i];
-		graphtmp[k++] = graph[i++];
+		graphtmp[k] = graph[i];
+		i++, k++;
 	}
 
 	while (j <= right) 
 	{
 		tmp[k] = randomNumberList[j];
-		graphtmp[k++] = graph[j++];
+		graphtmp[k] = graph[j];
+		j++, k++;
 	}
+
+	/* checks if value being copied from tmp list into original list is the exact same:
+	* if value is the same, don't swap cause the value is already at correct place.
+	*/
+	bool swap;
 
 	for (int p = left; p <= right; p++)
 	{
 		// method returns false if the value being copied is the same as the original:
-		if (tmp[p] == randomNumberList[p])
+		if (randomNumberList[p] == tmp[p])
 		{
 			swap = false;
 		}
 		else
 		{
-			std::swap(tmp[p], randomNumberList[p]);
+			std::swap(randomNumberList[p], tmp[p]);
 			std::swap(graph[p], graphtmp[p]);
+
 			float xCoord = graph[p].getPosition().x;
 			graph[p].setPosition(
 				graphtmp[p].getPosition().x, 
@@ -72,47 +89,6 @@ bool MergeSort::Merge(
 				xCoord, 
 				graphtmp[p].getPosition().y
 			);
-
-			/*if (p == right)
-			{
-			std::swap(tmp[p], randomNumberList[p]);
-			std::swap(graph[p], graphtmp[p]);
-			float xCoord = graph[p].getPosition().x;
-			graph[p].setPosition(
-			graphtmp[p].getPosition().x, 
-			graph[p].getPosition().y
-			);
-			graphtmp[p].setPosition(
-			xCoord, 
-			graphtmp[p].getPosition().y
-			);
-			}*/
-			/*else
-			{
-			std::swap(tmp[p], randomNumberList[p]);
-			std::swap(graph[p], graphtmp[p]);
-			float xCoord = graph[p].getPosition().x;
-			graph[p].setPosition(
-			graphtmp[p].getPosition().x, 
-			graph[p].getPosition().y
-			);
-			graphtmp[p].setPosition(
-			xCoord, 
-			graphtmp[p].getPosition().y
-			);
-
-			std::swap(randomNumberList[p+1], tmp[p]);
-			std::swap(graph[p+1], graphtmp[p]);
-			float nextXPos = graph[p+1].getPosition().x;
-			graph[p+1].setPosition(
-			graphtmp[p].getPosition().x, 
-			graph[p+1].getPosition().y
-			);
-			graphtmp[p].setPosition(
-			nextXPos,
-			graphtmp[p].getPosition().y
-			);
-			}*/
 			swap = true;
 			//return swap;
 		}
@@ -138,7 +114,7 @@ void MergeSort::Sort(
 	Sort(randomNumberList, graph, mid+1, right, merged);
 	if (merged) return;
 
-	if (Merge(randomNumberList, graph, tmp, graphtmp, left, mid, right))
+	if (Merge(randomNumberList, graph, numListCopy, graphListCopy, left, mid, right))
 		merged = true;
 }
 

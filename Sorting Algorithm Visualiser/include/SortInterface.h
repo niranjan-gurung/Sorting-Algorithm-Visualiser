@@ -15,7 +15,7 @@
 	(as mergesort has different params compared to the other sorting algorithms):
  */
 
-constexpr int MAX_SIZE = 80;
+constexpr int MAX_SIZE = 100;
 
 using u32 = uint32_t;
 using Rect = sf::RectangleShape;
@@ -76,31 +76,45 @@ inline void SortInterface::SetupList()
 	// generate random number between 1-500 to represent each bar:
 	std::random_device dev;
 	std::mt19937 rng(dev());
-	std::uniform_int_distribution<u32> generate(1, 500);
+	std::uniform_int_distribution<u32> generate(5, 500);
 
-	int barHeight = 8;
-	int barGraphSpacing = 15;	// tracks spacing between each individual graph's bars
+	float barSpacing = 5.f;	// tracks spacing between each individual graph's bars
+	float barWidth = 5.f;
 	
 	// init list values:
 	for (auto& value : randomNumberList)
 	{
-		value = barHeight;
-		barHeight += 8;
+		value = generate(rng);
 	}
 
 	// shuffle list:
-	std::shuffle(randomNumberList.begin(), randomNumberList.end(), std::mt19937{ std::random_device{}() });
+	//std::shuffle(randomNumberList.begin(), randomNumberList.end(), std::mt19937{ std::random_device{}() });
+
+	float windowX = (float)window->getSize().x;
+	float listWidth = (barWidth*MAX_SIZE) + (barSpacing*MAX_SIZE);
+	float fullGap = windowX-listWidth;
 
 	// assign randomNumberList values to corresponding index from graph list:
 	for (int i = 0; i < MAX_SIZE; i++)
 	{
-		graph[i] = Rect(sf::Vector2f(10.f, randomNumberList[i]));
+		graph[i] = Rect(sf::Vector2f(barWidth, randomNumberList[i]));
 		graph[i].setFillColor(sf::Color::Green);
-		graph[i].setPosition(
-			barGraphSpacing, 
-			window->getSize().y-graph[i].getGlobalBounds().height
-		);
-		barGraphSpacing += 15;
+		if (i == 0)
+		{
+			graph[i].setPosition(
+				(fullGap/2.f)+barSpacing, 
+				window->getSize().y-graph[i].getGlobalBounds().height
+			);
+			barSpacing = (fullGap/2.f)+barSpacing;
+		}
+		else
+		{
+			graph[i].setPosition(
+				barSpacing, 
+				window->getSize().y-graph[i].getGlobalBounds().height
+			);
+			barSpacing += 10.f;
+		}
 	}
 }
 

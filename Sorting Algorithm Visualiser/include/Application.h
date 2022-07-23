@@ -13,8 +13,8 @@
  * - Handles Update and Render methods of sorting algorithms
  * - Controls the amount of time slept in between renders 
  */
-namespace SortVisualiser 
-{
+namespace SortVisualiser {
+	
 	class Application
 	{
 	public:
