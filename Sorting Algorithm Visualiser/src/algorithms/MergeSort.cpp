@@ -120,46 +120,46 @@ void MergeSort::Sort(
 
 void MergeSort::Update()
 {
-	while (window->pollEvent(event))
-	{
-		switch (event.type)
-		{
-		case sf::Event::Closed:
-			window->close();
-			break;
+	//while (window->pollEvent(event))
+	//{
+	//	switch (event.type)
+	//	{
+	//	case sf::Event::Closed:
+	//		window->close();
+	//		break;
 
-		case sf::Event::MouseButtonPressed:
-			if (startBtn.getGlobalBounds().contains(
-				window->mapPixelToCoords(
-					sf::Mouse::getPosition(*window))))
-			{
-				std::cout << "start button clicked.\n";
-				startBtn.setString("");
-				isAppRunning = true;
-			}
-			break;
-		}
-	}
+	//	case sf::Event::MouseButtonPressed:
+	//		if (startBtn.getGlobalBounds().contains(
+	//			window->mapPixelToCoords(
+	//				sf::Mouse::getPosition(*window))))
+	//		{
+	//			std::cout << "start button clicked.\n";
+	//			startBtn.setString("");
+	//			isAppRunning = true;
+	//		}
+	//		break;
+	//	}
+	//}
 
-	if (isAppRunning)
-	{
-		int left = 0;
-		int right = MAX_SIZE-1;
-		merged = false;
-		Sort(randomNumberList, graph, left, right, merged);
-		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
-		{
-			//graph[index].setFillColor(sf::Color::Green);
-			isAppRunning = false;
-		}
-	}
+	//if (isAppRunning)
+	//{
+	//	int left = 0;
+	//	int right = MAX_SIZE-1;
+	//	merged = false;
+	//	Sort(randomNumberList, graph, left, right, merged);
+	//	if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+	//	{
+	//		//graph[index].setFillColor(sf::Color::Green);
+	//		isAppRunning = false;
+	//	}
+	//}
 }
 
 void MergeSort::Render()
 {
-	window->draw(startBtn);
-	for (const auto& value : graph)
-		window->draw(value);
+	//window->draw(startBtn);
+	//for (const auto& value : graph)
+	//	window->draw(value);
 }
 
 MergeSort::~MergeSort() {}

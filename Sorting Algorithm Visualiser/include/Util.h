@@ -7,8 +7,7 @@
 namespace util {
 
 	sf::Font LoadFont();
-	void SetupText(const std::string& name,	
-			sf::Text& text,
+	sf::Text SetupText(const std::string& name,	
 			sf::Font& font, 
 			int charSize, 
 			sf::Color colour, 

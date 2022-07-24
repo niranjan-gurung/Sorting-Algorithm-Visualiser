@@ -45,7 +45,7 @@ void SelectionSort::Sort(
 
 void SelectionSort::Update()
 {
-	while (window->pollEvent(event))
+	/*while (window->pollEvent(event))
 	{
 		switch (event.type)
 		{
@@ -74,14 +74,14 @@ void SelectionSort::Update()
 			graph[index].setFillColor(sf::Color::Green);
 			isAppRunning = false;
 		}
-	}
+	}*/
 }
 
 void SelectionSort::Render()
 {
-	window->draw(startBtn);
-	for (const auto& value : graph)
-		window->draw(value);
+	//window->draw(startBtn);
+	//for (const auto& value : graph)
+	//	window->draw(value);
 }
 
 SelectionSort::~SelectionSort() {}

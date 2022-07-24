@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <vector>
+#include <unordered_map>
 #include <random>
 #include <algorithm>
 
@@ -59,9 +60,11 @@ protected:
 
 	// utility
 	sf::Font font;
-	sf::Text startBtn, shuffleBtn, listSorted, currentSelectedAlg;
+	//sf::Text startBtn, shuffleBtn, currentSelectedAlg, listSorted;
 	// sort alg texts:
-	sf::Text bubbleSortBtn, insertionSortBtn, selectionSortBtn, mergeSortBtn;
+	//sf::Text bubbleSortBtn, insertionSortBtn, selectionSortBtn, mergeSortBtn;
+
+	std::unordered_map<std::string, sf::Text> UIElements;
 
 	std::string currentAlgorithm;
 
@@ -69,6 +72,7 @@ protected:
 	bool sorted;
 	bool shuffled;
 	int index;			// position of the last red bar that needs turning green
+	int counter;
 
 private:
 	float barSpacing;	// spacing between each individual bar
@@ -84,21 +88,32 @@ inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	isAppRunning(false), 
 	sorted(false),
 	shuffled(false),
-	index(0)
+	index(0),
+	counter(0)
 {
 	// setup initial values:
 	InitList();
 	font = util::LoadFont();
-	util::SetupText("Start", startBtn, font, 20, sf::Color::Red, { 100, 50 });
-	util::SetupText("Current selected algorithm: ...", currentSelectedAlg, font, 16, sf::Color::Red, {100, 80});
 
-	util::SetupText("Bubble Sort", bubbleSortBtn, font, 20, sf::Color::Red, { (startBtn.getPosition().x+startBtn.getGlobalBounds().width)+100, 50 });
-	util::SetupText("Insertion Sort", insertionSortBtn, font, 20, sf::Color::Red, { (bubbleSortBtn.getPosition().x+bubbleSortBtn.getGlobalBounds().width)+100, 50 });
-	util::SetupText("Selection Sort", selectionSortBtn, font, 20, sf::Color::Red, { (insertionSortBtn.getPosition().x+insertionSortBtn.getGlobalBounds().width)+100, 50 });
-	util::SetupText("Merge Sort", mergeSortBtn, font, 20, sf::Color::Red, { (selectionSortBtn.getPosition().x+selectionSortBtn.getGlobalBounds().width)+100, 50 });
-
-	util::SetupText("Shuffle", shuffleBtn, font, 20, sf::Color::White, { (mergeSortBtn.getPosition().x+mergeSortBtn.getGlobalBounds().width)+100, 50 });
-	util::SetupText("", listSorted, font, 20, sf::Color::White, { (graph[0].getPosition().x/2.f)/2.f, (float)window->getSize().y-30 });
+	UIElements.insert({
+		// start button:
+		{ "Start", util::SetupText("Start", font, 20, sf::Color::Red, { 100, 50 }) },
+		
+		// current selected algorithm button:
+		{ "Current selected algorithms: ...", util::SetupText("Current selected algorithm: ...", font, 16, sf::Color::Red, {100, 80}) },
+		
+		// list sorted button:
+		{ "Sorted", util::SetupText("", font, 20, sf::Color::White, { (graph[0].getPosition().x/2.f)/2.f, (float)window->getSize().y-30 }) },
+		
+		// sorting algorithm buttons:
+		{ "Bubble Sort", util::SetupText("Bubble Sort", font, 20, sf::Color::Red, { (UIElements["Sorted"].getPosition().x+UIElements["Sorted"].getGlobalBounds().width)+100, 50 }) },
+		{ "Insertion Sort", util::SetupText("Insertion Sort", font, 20, sf::Color::Red, { (UIElements["Bubble Sort"].getPosition().x+UIElements["Bubble Sort"].getGlobalBounds().width)+100, 50 }) },
+		{ "Selection Sort", util::SetupText("Selection Sort", font, 20, sf::Color::Red, { (UIElements["Insertion Sort"].getPosition().x+UIElements["Insertion Sort"].getGlobalBounds().width)+100, 50 }) },
+		{ "Merge Sort", util::SetupText("Merge Sort", font, 20, sf::Color::Red, { (UIElements["Selection Sort"].getPosition().x+UIElements["Selection Sort"].getGlobalBounds().width)+100, 50 }) },
+		
+		// shuffle button:
+		{ "Shuffle", util::SetupText("Shuffle", font, 20, sf::Color::White, { (UIElements["Merge Sort"].getPosition().x+UIElements["Merge Sort"].getGlobalBounds().width)+100, 50 }) }
+	});
 }
 
 inline void SortInterface::ShuffleList()

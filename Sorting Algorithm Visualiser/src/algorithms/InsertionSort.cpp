@@ -39,7 +39,7 @@ void InsertionSort::Sort(
 
 void InsertionSort::Update()
 {
-	while (window->pollEvent(event))
+	/*while (window->pollEvent(event))
 	{
 		switch (event.type)
 		{
@@ -68,14 +68,14 @@ void InsertionSort::Update()
 			graph[index].setFillColor(sf::Color::Green);
 			isAppRunning = false;
 		}
-	}
+	}*/
 }
 
 void InsertionSort::Render()
 {
-	window->draw(startBtn);
-	for (const auto& value : graph)
-		window->draw(value);
+	//window->draw(startBtn);
+	//for (const auto& value : graph)
+	//	window->draw(value);
 }
 
 InsertionSort::~InsertionSort() {}

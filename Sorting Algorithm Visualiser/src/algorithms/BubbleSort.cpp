@@ -50,7 +50,7 @@ void BubbleSort::Update()
 		case sf::Event::MouseButtonPressed:
 
 			// start sorting:
-			if (startBtn.getGlobalBounds().contains(
+			if (UIElements["Start"].getGlobalBounds().contains(
 				window->mapPixelToCoords(
 					sf::Mouse::getPosition(*window))))
 			{
@@ -61,26 +61,29 @@ void BubbleSort::Update()
 				}
 				
 				std::cout << "start button clicked.\n";
+				// set all Texts to empty string:
+				for (auto& it : UIElements)
+					it.second.setString("");
 				
-				startBtn.setString("");
-				currentSelectedAlg.setString("");
-				bubbleSortBtn.setString("");
-				insertionSortBtn.setString("");
-				selectionSortBtn.setString("");
-				mergeSortBtn.setString("");
-				shuffleBtn.setString("");
+				//startBtn.setString("");
+				//currentSelectedAlg.setString("");
+				//bubbleSortBtn.setString("");
+				//insertionSortBtn.setString("");
+				//selectionSortBtn.setString("");
+				//mergeSortBtn.setString("");
+				//shuffleBtn.setString("");
 				isAppRunning = true;
 			}
 
 			// shuffle list:
-			if (shuffleBtn.getGlobalBounds().contains(
+			if (UIElements["Shuffle"].getGlobalBounds().contains(
 				window->mapPixelToCoords(
 					sf::Mouse::getPosition(*window))))
 			{
 				std::cout << "shuffle button clicked.\n";
 				
 				ShuffleList();
-				listSorted.setString("");
+				UIElements["Sorted"].setString("");
 				shuffled = true;
 				sorted = false;
 			}
@@ -91,21 +94,24 @@ void BubbleSort::Update()
 	if (isAppRunning && shuffled)
 	{
 		Sort(randomNumberList, graph);
+
+		// enter once list is fully sorted:
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(sf::Color::Green);
 			
 			// show start button again once sorting animation has finished:
-			startBtn.setString("Start");
-			currentSelectedAlg.setString("Current selected algorithm: ...");
-			bubbleSortBtn.setString("Bubble Sort");
-			insertionSortBtn.setString("Insertion Sort");
-			selectionSortBtn.setString("Selection Sort");
-			mergeSortBtn.setString("Merge Sort");
-			shuffleBtn.setString("Shuffle");
-			listSorted.setString("Sorted");
+			UIElements["Start"].setString("Start");
+			UIElements["Current selected algorithm: ..."].setString("Current selected algorithm: ...");
+			UIElements["Bubble Sort"].setString("Bubble Sort");
+			UIElements["Insertion Sort"].setString("Insertion Sort");
+			UIElements["Selection Sort"].setString("Selection Sort");
+			UIElements["Merge Sort"].setString("Merge Sort");
+			UIElements["Shuffle"].setString("Shuffle");
+			UIElements["Sorted"].setString("Sorted");
 
 			sorted = true;
+			shuffled = false;
 			isAppRunning = false;
 		}
 	}
@@ -113,16 +119,19 @@ void BubbleSort::Update()
 
 void BubbleSort::Render() 
 {
-	window->draw(startBtn);
-	window->draw(currentSelectedAlg);
-	window->draw(bubbleSortBtn);
-	window->draw(insertionSortBtn);
-	window->draw(selectionSortBtn);
-	window->draw(mergeSortBtn);
-	window->draw(shuffleBtn);
+	//window->draw(startBtn);
+	//window->draw(currentSelectedAlg);
+	//window->draw(bubbleSortBtn);
+	//window->draw(insertionSortBtn);
+	//window->draw(selectionSortBtn);
+	//window->draw(mergeSortBtn);
+	//window->draw(shuffleBtn);
 
+	// draw all UI texts:
+	for (const auto& value : UIElements)
+		window->draw(value.second);
 	if (sorted)
-		window->draw(listSorted);
+		window->draw(UIElements["Sorted"]);
 	for (const auto& value : graph)
 		window->draw(value);
 }
