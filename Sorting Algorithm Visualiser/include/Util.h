@@ -6,7 +6,11 @@
 
 namespace util {
 
-	void LoadFont(sf::Font& font);
-	void SetupText(sf::Text& text, const std::string& name,
-		sf::Font& font, int charSize, sf::Color colour);
+	sf::Font LoadFont();
+	void SetupText(const std::string& name,	
+			sf::Text& text,
+			sf::Font& font, 
+			int charSize, 
+			sf::Color colour, 
+			const sf::Vector2f& pos);
 };

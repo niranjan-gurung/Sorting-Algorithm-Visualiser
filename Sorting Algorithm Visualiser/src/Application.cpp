@@ -3,7 +3,7 @@
 namespace SortVisualiser {
 	
 	Application::Application() 
-		: sleepTime(30)
+		: sleepTime(20)
 	{
 		appWindow = std::make_shared<sf::RenderWindow>(
 			sf::VideoMode(1280, 720),
@@ -11,7 +11,7 @@ namespace SortVisualiser {
 		);
 		appWindow->setVerticalSyncEnabled(true);
 
-		sortAlgorithm = std::make_unique<InsertionSort>(appWindow);
+		sortAlgorithm = std::make_unique<BubbleSort>(appWindow);
 	}
 
 	void Application::Run()

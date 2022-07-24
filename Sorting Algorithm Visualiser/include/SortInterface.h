@@ -40,6 +40,13 @@ public:
 		bool& merged);
 
 protected:
+	void ShuffleList();
+
+private:
+	void InitList();
+	void InitGraph();
+
+protected:
 	std::shared_ptr<sf::RenderWindow> window;
 	sf::Event event;
 
@@ -52,49 +59,83 @@ protected:
 
 	// utility
 	sf::Font font;
-	sf::Text startBtn;
+	sf::Text startBtn, shuffleBtn, listSorted, currentSelectedAlg;
+	// sort alg texts:
+	sf::Text bubbleSortBtn, insertionSortBtn, selectionSortBtn, mergeSortBtn;
+
+	std::string currentAlgorithm;
 
 	bool isAppRunning;	// track is start button is clicked
+	bool sorted;
+	bool shuffled;
 	int index;			// position of the last red bar that needs turning green
 
 private:
-	void SetupList();
+	float barSpacing;	// spacing between each individual bar
+	float barWidth;
+
+	float windowX;
+	float listWidth;
+	float fullGap;
 };
 
 inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	: window(window), 
 	isAppRunning(false), 
+	sorted(false),
+	shuffled(false),
 	index(0)
 {
-	SetupList();
-	util::LoadFont(font);
-	util::SetupText(startBtn, "Start!", font, 20, sf::Color::Red);
+	// setup initial values:
+	InitList();
+	font = util::LoadFont();
+	util::SetupText("Start", startBtn, font, 20, sf::Color::Red, { 100, 50 });
+	util::SetupText("Current selected algorithm: ...", currentSelectedAlg, font, 16, sf::Color::Red, {100, 80});
+
+	util::SetupText("Bubble Sort", bubbleSortBtn, font, 20, sf::Color::Red, { (startBtn.getPosition().x+startBtn.getGlobalBounds().width)+100, 50 });
+	util::SetupText("Insertion Sort", insertionSortBtn, font, 20, sf::Color::Red, { (bubbleSortBtn.getPosition().x+bubbleSortBtn.getGlobalBounds().width)+100, 50 });
+	util::SetupText("Selection Sort", selectionSortBtn, font, 20, sf::Color::Red, { (insertionSortBtn.getPosition().x+insertionSortBtn.getGlobalBounds().width)+100, 50 });
+	util::SetupText("Merge Sort", mergeSortBtn, font, 20, sf::Color::Red, { (selectionSortBtn.getPosition().x+selectionSortBtn.getGlobalBounds().width)+100, 50 });
+
+	util::SetupText("Shuffle", shuffleBtn, font, 20, sf::Color::White, { (mergeSortBtn.getPosition().x+mergeSortBtn.getGlobalBounds().width)+100, 50 });
+	util::SetupText("", listSorted, font, 20, sf::Color::White, { (graph[0].getPosition().x/2.f)/2.f, (float)window->getSize().y-30 });
 }
 
-inline void SortInterface::SetupList()
+inline void SortInterface::ShuffleList()
+{
+	std::shuffle(randomNumberList.begin(), randomNumberList.end(), std::mt19937{ std::random_device{}() });
+	// assign randomNumberList values to corresponding index from graph list
+	InitGraph();
+}
+
+inline void SortInterface::InitList()
 {
 	// generate random number between 1-500 to represent each bar:
 	std::random_device dev;
 	std::mt19937 rng(dev());
 	std::uniform_int_distribution<u32> generate(5, 500);
 
-	float barSpacing = 5.f;	// tracks spacing between each individual graph's bars
-	float barWidth = 5.f;
-	
 	// init list values:
 	for (auto& value : randomNumberList)
-	{
 		value = generate(rng);
-	}
+	
+	// present sorted graph when app is initially started
+	std::sort(randomNumberList.begin(), randomNumberList.end());
+	
+	// assign randomNumberList values to corresponding index from graph list:
+	InitGraph();
+}
 
-	// shuffle list:
-	//std::shuffle(randomNumberList.begin(), randomNumberList.end(), std::mt19937{ std::random_device{}() });
+inline void SortInterface::InitGraph()
+{
+	float barSpacing = 5.f;	// spacing between each individual bar
+	float barWidth = 5.f;
 
+	// values used to center entire graph:
 	float windowX = (float)window->getSize().x;
 	float listWidth = (barWidth*MAX_SIZE) + (barSpacing*MAX_SIZE);
 	float fullGap = windowX-listWidth;
 
-	// assign randomNumberList values to corresponding index from graph list:
 	for (int i = 0; i < MAX_SIZE; i++)
 	{
 		graph[i] = Rect(sf::Vector2f(barWidth, randomNumberList[i]));

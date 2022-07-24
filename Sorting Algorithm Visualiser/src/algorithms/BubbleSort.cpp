@@ -48,24 +48,64 @@ void BubbleSort::Update()
 			break;
 
 		case sf::Event::MouseButtonPressed:
+
+			// start sorting:
 			if (startBtn.getGlobalBounds().contains(
 				window->mapPixelToCoords(
 					sf::Mouse::getPosition(*window))))
 			{
+				if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+				{
+					std::cout << "List already sorted.\n";
+					break;
+				}
+				
 				std::cout << "start button clicked.\n";
+				
 				startBtn.setString("");
+				currentSelectedAlg.setString("");
+				bubbleSortBtn.setString("");
+				insertionSortBtn.setString("");
+				selectionSortBtn.setString("");
+				mergeSortBtn.setString("");
+				shuffleBtn.setString("");
 				isAppRunning = true;
+			}
+
+			// shuffle list:
+			if (shuffleBtn.getGlobalBounds().contains(
+				window->mapPixelToCoords(
+					sf::Mouse::getPosition(*window))))
+			{
+				std::cout << "shuffle button clicked.\n";
+				
+				ShuffleList();
+				listSorted.setString("");
+				shuffled = true;
+				sorted = false;
 			}
 			break;
 		}
 	}
 
-	if (isAppRunning)
+	if (isAppRunning && shuffled)
 	{
 		Sort(randomNumberList, graph);
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(sf::Color::Green);
+			
+			// show start button again once sorting animation has finished:
+			startBtn.setString("Start");
+			currentSelectedAlg.setString("Current selected algorithm: ...");
+			bubbleSortBtn.setString("Bubble Sort");
+			insertionSortBtn.setString("Insertion Sort");
+			selectionSortBtn.setString("Selection Sort");
+			mergeSortBtn.setString("Merge Sort");
+			shuffleBtn.setString("Shuffle");
+			listSorted.setString("Sorted");
+
+			sorted = true;
 			isAppRunning = false;
 		}
 	}
@@ -74,6 +114,15 @@ void BubbleSort::Update()
 void BubbleSort::Render() 
 {
 	window->draw(startBtn);
+	window->draw(currentSelectedAlg);
+	window->draw(bubbleSortBtn);
+	window->draw(insertionSortBtn);
+	window->draw(selectionSortBtn);
+	window->draw(mergeSortBtn);
+	window->draw(shuffleBtn);
+
+	if (sorted)
+		window->draw(listSorted);
 	for (const auto& value : graph)
 		window->draw(value);
 }
