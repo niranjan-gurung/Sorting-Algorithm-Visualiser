@@ -59,19 +59,12 @@ void BubbleSort::Update()
 					std::cout << "List already sorted.\n";
 					break;
 				}
-				
 				std::cout << "start button clicked.\n";
+
 				// set all Texts to empty string:
 				for (auto& it : UIElements)
 					it.second.setString("");
 				
-				//startBtn.setString("");
-				//currentSelectedAlg.setString("");
-				//bubbleSortBtn.setString("");
-				//insertionSortBtn.setString("");
-				//selectionSortBtn.setString("");
-				//mergeSortBtn.setString("");
-				//shuffleBtn.setString("");
 				isAppRunning = true;
 			}
 
@@ -83,9 +76,10 @@ void BubbleSort::Update()
 				std::cout << "shuffle button clicked.\n";
 				
 				ShuffleList();
+
 				UIElements["Sorted"].setString("");
 				shuffled = true;
-				sorted = false;
+				//sorted = false;
 			}
 			break;
 		}
@@ -110,7 +104,7 @@ void BubbleSort::Update()
 			UIElements["Shuffle"].setString("Shuffle");
 			UIElements["Sorted"].setString("Sorted");
 
-			sorted = true;
+			//sorted = true;
 			shuffled = false;
 			isAppRunning = false;
 		}
@@ -119,19 +113,10 @@ void BubbleSort::Update()
 
 void BubbleSort::Render() 
 {
-	//window->draw(startBtn);
-	//window->draw(currentSelectedAlg);
-	//window->draw(bubbleSortBtn);
-	//window->draw(insertionSortBtn);
-	//window->draw(selectionSortBtn);
-	//window->draw(mergeSortBtn);
-	//window->draw(shuffleBtn);
-
 	// draw all UI texts:
 	for (const auto& value : UIElements)
 		window->draw(value.second);
-	if (sorted)
-		window->draw(UIElements["Sorted"]);
+
 	for (const auto& value : graph)
 		window->draw(value);
 }

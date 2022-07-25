@@ -12,9 +12,9 @@ namespace util
 
 	sf::Text SetupText(const std::string& name, 
 			sf::Font& font, 
-			int charSize, 
-			sf::Color colour, 
-			const sf::Vector2f& pos)
+			const sf::Vector2f& pos,
+			sf::Color colour,
+			int charSize) 
 	{
 		sf::Text text;
 		text.setFont(font);

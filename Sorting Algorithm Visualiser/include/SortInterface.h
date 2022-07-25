@@ -94,25 +94,83 @@ inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	// setup initial values:
 	InitList();
 	font = util::LoadFont();
-
-	UIElements.insert({
-		// start button:
-		{ "Start", util::SetupText("Start", font, 20, sf::Color::Red, { 100, 50 }) },
-		
-		// current selected algorithm button:
-		{ "Current selected algorithms: ...", util::SetupText("Current selected algorithm: ...", font, 16, sf::Color::Red, {100, 80}) },
-		
-		// list sorted button:
-		{ "Sorted", util::SetupText("", font, 20, sf::Color::White, { (graph[0].getPosition().x/2.f)/2.f, (float)window->getSize().y-30 }) },
-		
-		// sorting algorithm buttons:
-		{ "Bubble Sort", util::SetupText("Bubble Sort", font, 20, sf::Color::Red, { (UIElements["Sorted"].getPosition().x+UIElements["Sorted"].getGlobalBounds().width)+100, 50 }) },
-		{ "Insertion Sort", util::SetupText("Insertion Sort", font, 20, sf::Color::Red, { (UIElements["Bubble Sort"].getPosition().x+UIElements["Bubble Sort"].getGlobalBounds().width)+100, 50 }) },
-		{ "Selection Sort", util::SetupText("Selection Sort", font, 20, sf::Color::Red, { (UIElements["Insertion Sort"].getPosition().x+UIElements["Insertion Sort"].getGlobalBounds().width)+100, 50 }) },
-		{ "Merge Sort", util::SetupText("Merge Sort", font, 20, sf::Color::Red, { (UIElements["Selection Sort"].getPosition().x+UIElements["Selection Sort"].getGlobalBounds().width)+100, 50 }) },
-		
-		// shuffle button:
-		{ "Shuffle", util::SetupText("Shuffle", font, 20, sf::Color::White, { (UIElements["Merge Sort"].getPosition().x+UIElements["Merge Sort"].getGlobalBounds().width)+100, 50 }) }
+	
+	// Init UI buttons and their positions:
+	// start button:
+	UIElements.insert({ 
+		"Start", 
+		util::SetupText("Start", 
+		font, 
+		{ 100, 50 }) 
+	});
+	// current selected algorithm button:
+	UIElements.insert({ 
+		"Current selected algorithms: ...", 
+		util::SetupText("Current selected algorithms: ...", 
+		font, 
+		{ 100, 80 }) 
+	});
+	// list sorted button:
+	UIElements.insert({ 
+		"",
+		util::SetupText("Sorted",
+		font,
+		{ 
+			(graph[0].getPosition().x/2.f)/2.f, 
+			(float)window->getSize().y-30 
+		}, 
+		sf::Color::White) 
+	});
+	// sorting algorithm buttons:
+	// Bubble
+	UIElements.insert({ 
+		"Bubble Sort", 
+		util::SetupText("Bubble Sort", 
+		font, 
+		{ 
+			(UIElements["Start"].getPosition().x+UIElements["Start"].getGlobalBounds().width)+100, 
+			50 
+		}) 
+	});
+	// Insertion
+	UIElements.insert({ 
+		"Insertion Sort", 
+		util::SetupText("Insertion Sort", 
+		font, 
+		{ 
+			(UIElements["Bubble Sort"].getPosition().x+UIElements["Bubble Sort"].getGlobalBounds().width)+100, 
+			50 
+		}) 
+	});
+	// Selection
+	UIElements.insert({ 
+		"Selection Sort", 
+		util::SetupText("Selection Sort", 
+		font, 
+		{ 
+			(UIElements["Insertion Sort"].getPosition().x+UIElements["Insertion Sort"].getGlobalBounds().width)+100, 
+			50 
+		}) 
+	});
+	// Merge
+	UIElements.insert({ 
+		"Merge Sort", 
+		util::SetupText("Merge Sort", 
+		font, 
+		{ 
+			(UIElements["Selection Sort"].getPosition().x+UIElements["Selection Sort"].getGlobalBounds().width)+100, 
+			50 
+		}) 
+	});
+	// shuffle button:
+	UIElements.insert({ 
+		"Shuffle", 
+		util::SetupText("Shuffle", 
+		font, 
+		{ 
+			(UIElements["Merge Sort"].getPosition().x+UIElements["Merge Sort"].getGlobalBounds().width)+100, 
+			50 
+		}) 
 	});
 }
 
