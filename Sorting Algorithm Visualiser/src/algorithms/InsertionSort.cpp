@@ -10,7 +10,7 @@ void InsertionSort::Sort(
 {
 	for (int i = 1; i < MAX_SIZE; i++)
 	{
-		graph[i].setFillColor(sf::Color::Red);
+		graph[i].setFillColor(barSwapping);
 		u32 key = randomNumberList[i];
 		int j = i-1;
 		while (j >= 0 && randomNumberList[j] > key)
@@ -29,11 +29,11 @@ void InsertionSort::Sort(
 				xCoord, 
 				graph[j+1].getPosition().y
 			);
-			graph[i].setFillColor(sf::Color::Green);
+			graph[i].setFillColor(bar);
 			index = j;
 			return;
 		}
-		graph[j].setFillColor(sf::Color::Green);
+		graph[j].setFillColor(bar);
 	}
 }
 
@@ -92,7 +92,7 @@ void InsertionSort::Update()
 		// enter once list is fully sorted:
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
-			graph[index].setFillColor(sf::Color::Green);
+			graph[index].setFillColor(bar);
 
 			// show start button again once sorting animation has finished:
 			UIElements["Start"].setString("Start");

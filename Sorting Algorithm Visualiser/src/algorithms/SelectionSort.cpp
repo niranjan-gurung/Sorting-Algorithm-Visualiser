@@ -20,7 +20,7 @@ void SelectionSort::Sort(
 				swapped = true;
 			}
 		}
-		graph[minIndex].setFillColor(sf::Color::Red);
+		graph[minIndex].setFillColor(barSwapping);
 		// swap from the numbers list:
 		std::swap(randomNumberList[minIndex], randomNumberList[i]);
 		// swap bar from graph list:
@@ -35,7 +35,7 @@ void SelectionSort::Sort(
 			xCoord, 
 			graph[minIndex].getPosition().y
 		);
-		graph[minIndex].setFillColor(sf::Color::Green);
+		graph[minIndex].setFillColor(bar);
 
 		index = i;
 		if (swapped)
@@ -98,7 +98,7 @@ void SelectionSort::Update()
 		// enter once list is fully sorted:
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
-			graph[index].setFillColor(sf::Color::Green);
+			graph[index].setFillColor(bar);
 
 			// show start button again once sorting animation has finished:
 			UIElements["Start"].setString("Start");

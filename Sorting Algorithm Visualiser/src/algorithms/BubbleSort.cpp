@@ -12,7 +12,7 @@ void BubbleSort::Sort(
 	{
 		for (int j = MAX_SIZE-1; j > 0; j--)
 		{
-			graph[j].setFillColor(sf::Color::Green);
+			graph[j].setFillColor(bar);
 			if (randomNumberList[j] < randomNumberList[j-1])
 			{
 				// swap from the numbers list:
@@ -29,7 +29,7 @@ void BubbleSort::Sort(
 					xCoord, 
 					graph[j-1].getPosition().y
 				);
-				graph[j].setFillColor(sf::Color::Red);
+				graph[j].setFillColor(barSwapping);
 				index = j;
 				return;
 			}
@@ -92,7 +92,7 @@ void BubbleSort::Update()
 		// enter once list is fully sorted:
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
-			graph[index].setFillColor(sf::Color::Green);
+			graph[index].setFillColor(bar);
 			
 			// show start button again once sorting animation has finished:
 			UIElements["Start"].setString("Start");

@@ -16,7 +16,7 @@
 	(as mergesort has different params compared to the other sorting algorithms):
  */
 
-constexpr int MAX_SIZE = 100;
+constexpr int MAX_SIZE = 120;
 
 using u32 = uint32_t;
 using Rect = sf::RectangleShape;
@@ -60,6 +60,7 @@ protected:
 
 	// utility
 	sf::Font font;
+	sf::Color bar, barSwapping;
 
 	std::unordered_map<std::string, sf::Text> UIElements;
 
@@ -70,23 +71,17 @@ protected:
 	bool shuffled;
 	int index;			// position of the last red bar that needs turning green
 	int counter;
-
-private:
-	float barSpacing;	// spacing between each individual bar
-	float barWidth;
-
-	float windowX;
-	float listWidth;
-	float fullGap;
 };
 
 inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	: window(window), 
-	isAppRunning(false), 
-	sorted(false),
+	bar({66, 237, 209}),			// default bar colour
+	barSwapping(sf::Color::Red),	// colour of bar thats current getting changed
+	isAppRunning(false),			
+	sorted(false),					
 	shuffled(false),
-	index(0),
-	counter(0)
+	index(0),						// track last bar that was changed (to change its colour back to default)
+	counter(0)						
 {
 	// setup initial values:
 	InitList();
@@ -180,10 +175,12 @@ inline void SortInterface::ShuffleList()
 
 inline void SortInterface::InitList()
 {
+	float windowY = (float)window->getSize().y;
+
 	// generate random number between 1-500 to represent each bar:
 	std::random_device dev;
 	std::mt19937 rng(dev());
-	std::uniform_int_distribution<u32> generate(5, 500);
+	std::uniform_int_distribution<u32> generate(5, windowY);
 
 	// init list values:
 	for (auto& value : randomNumberList)
@@ -209,7 +206,7 @@ inline void SortInterface::InitGraph()
 	for (int i = 0; i < MAX_SIZE; i++)
 	{
 		graph[i] = Rect(sf::Vector2f(barWidth, randomNumberList[i]));
-		graph[i].setFillColor(sf::Color::Green);
+		graph[i].setFillColor(sf::Color(66, 237, 209));
 		if (i == 0)
 		{
 			graph[i].setPosition(

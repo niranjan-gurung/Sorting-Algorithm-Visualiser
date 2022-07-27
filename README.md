@@ -2,14 +2,20 @@
 
 ## Using C++ && SFML
 
-Algorithms Visualised so far:
+Algorithms Visualised:
 
 - Bubble Sort
 - Selection Sort
 - Insertion Sort
-
-Algorithms Left TODO:
-
 - Merge Sort
+
+TODO:
+
+- ImGui-SFML for UI/Buttons
+
+Algorithms to implement in the future:
+
 - Shell Sort
 - Heap Sort
+- Quick Sort
+- Pancake Sort

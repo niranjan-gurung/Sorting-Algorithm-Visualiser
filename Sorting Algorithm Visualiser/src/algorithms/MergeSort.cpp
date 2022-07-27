@@ -73,6 +73,7 @@ bool MergeSort::Merge(
 
 	for (int p = left; p <= right; p++)
 	{
+		graph[p].setFillColor(bar);
 		// method returns false if the value being copied is the same as the original:
 		if (tmp[p] == randomNumberList[p])
 			swap = false;
@@ -90,6 +91,8 @@ bool MergeSort::Merge(
 				xCoord, 
 				graphtmp[p].getPosition().y
 			);
+			graph[p].setFillColor(barSwapping);
+			index = p;
 			swap = true;
 			return swap;
 		}
@@ -185,7 +188,7 @@ void MergeSort::Update()
 		// enter once list is fully sorted:
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
-			graph[index].setFillColor(sf::Color::Green);
+			graph[index].setFillColor(bar);
 
 			// show start button again once sorting animation has finished:
 			UIElements["Start"].setString("Start");
