@@ -60,9 +60,6 @@ protected:
 
 	// utility
 	sf::Font font;
-	//sf::Text startBtn, shuffleBtn, currentSelectedAlg, listSorted;
-	// sort alg texts:
-	//sf::Text bubbleSortBtn, insertionSortBtn, selectionSortBtn, mergeSortBtn;
 
 	std::unordered_map<std::string, sf::Text> UIElements;
 
@@ -105,15 +102,15 @@ inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	});
 	// current selected algorithm button:
 	UIElements.insert({ 
-		"Current selected algorithms: ...", 
-		util::SetupText("Current selected algorithms: ...", 
+		"Current algorithm selected", 
+		util::SetupText("Current algorithm selected: ...", 
 		font, 
 		{ 100, 80 }) 
 	});
 	// list sorted button:
 	UIElements.insert({ 
-		"",
-		util::SetupText("Sorted",
+		"Sorted",
+		util::SetupText("",
 		font,
 		{ 
 			(graph[0].getPosition().x/2.f)/2.f, 
@@ -191,7 +188,7 @@ inline void SortInterface::InitList()
 	// init list values:
 	for (auto& value : randomNumberList)
 		value = generate(rng);
-	
+
 	// present sorted graph when app is initially started
 	std::sort(randomNumberList.begin(), randomNumberList.end());
 	

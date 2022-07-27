@@ -12,7 +12,7 @@ namespace SortVisualiser {
 		appWindow->setVerticalSyncEnabled(true);
 
 		// bubble sort by default
-		sortAlgorithm = std::make_unique<BubbleSort>(appWindow);
+		sortAlgorithm = std::make_unique<MergeSort>(appWindow);
 	}
 
 	void Application::Run()
@@ -37,7 +37,7 @@ namespace SortVisualiser {
 		appWindow->clear();
 
 		// pausing between renders to show sorting animation:
-		//sf::sleep(sf::milliseconds(sleepTime));
+		sf::sleep(sf::milliseconds(sleepTime));
 		if (sortAlgorithm != nullptr)
 			sortAlgorithm->Render();
 	

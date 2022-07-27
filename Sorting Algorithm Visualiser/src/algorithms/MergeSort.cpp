@@ -1,25 +1,19 @@
 #include "../../include/MergeSort.h"
 
 MergeSort::MergeSort(std::shared_ptr<sf::RenderWindow> window)
-	: SortInterface(window), merged(false)
-{
-	/*std::copy(
-		std::begin(randomNumberList), 
-		std::end(randomNumberList), 
-		std::begin(numListCopy)
-	);
-	std::copy(
-		std::begin(graph), 
-		std::end(graph), 
-		std::begin(graphListCopy)
-	);*/
-}
+	: SortInterface(window), merged(false) {}
 
+/* Merge sub-arrays of current recursion:
+ * @params randomNumberList/graph: main list that will be drawn on the screen.
+ * @params ncopy/gcopy: 
+	- sub-array that holds sorted variations for the current merge call iteration.
+	- used to compare and fill tmp array with sorted values of current sub-array.
+ */
 bool MergeSort::Merge(
 	std::array<u32, MAX_SIZE>& randomNumberList, 
 	std::array<Rect, MAX_SIZE>& graph,
-	const std::array<u32, MAX_SIZE>& ncopy,
-	const std::array<Rect, MAX_SIZE>& gcopy,
+	std::array<u32, MAX_SIZE>& copyList,
+	std::array<Rect, MAX_SIZE>& copyGraph,
 	int left, 
 	int mid, 
 	int right)
@@ -32,18 +26,19 @@ bool MergeSort::Merge(
 	std::vector<u32> tmp(right+1);
 	std::vector<Rect> graphtmp(right+1);
 
+	// sort values from the current sub-array(copyList) and fill tmp with it:
 	while (i <= mid && j <= right)
 	{
-		if (randomNumberList[i] <= randomNumberList[j])
+		if (copyList[i] < copyList[j])
 		{
-			tmp[k] = randomNumberList[i];
-			graphtmp[k] = graph[i];
+			tmp[k] = copyList[i];
+			graphtmp[k] = copyGraph[i];
 			i++;
 		}
 		else
 		{
-			tmp[k] = randomNumberList[j];
-			graphtmp[k] = graph[j];
+			tmp[k] = copyList[j];
+			graphtmp[k] = copyGraph[j];
 			j++;
 		}
 		k++;
@@ -51,16 +46,24 @@ bool MergeSort::Merge(
 
 	while (i <= mid)
 	{
-		tmp[k] = randomNumberList[i];
-		graphtmp[k] = graph[i];
+		tmp[k] = copyList[i];
+		graphtmp[k] = copyGraph[i];
 		i++, k++;
 	}
 
 	while (j <= right) 
 	{
-		tmp[k] = randomNumberList[j];
-		graphtmp[k] = graph[j];
+		tmp[k] = copyList[j];
+		graphtmp[k] = copyGraph[j];
 		j++, k++;
+	}
+
+	// move sorted order values from tmp back into ncopy list.
+	// this sets up copyList for next merge call:
+	for (int p = left; p <= right; p++)
+	{
+		copyList[p] = tmp[p];
+		copyGraph[p] = graphtmp[p];
 	}
 
 	/* checks if value being copied from tmp list into original list is the exact same:
@@ -71,10 +74,8 @@ bool MergeSort::Merge(
 	for (int p = left; p <= right; p++)
 	{
 		// method returns false if the value being copied is the same as the original:
-		if (randomNumberList[p] == tmp[p])
-		{
+		if (tmp[p] == randomNumberList[p])
 			swap = false;
-		}
 		else
 		{
 			std::swap(randomNumberList[p], tmp[p]);
@@ -90,7 +91,7 @@ bool MergeSort::Merge(
 				graphtmp[p].getPosition().y
 			);
 			swap = true;
-			//return swap;
+			return swap;
 		}
 	}
 	return swap;
@@ -107,59 +108,110 @@ void MergeSort::Sort(
 		return;
 
 	int mid = (left+right)/2;
-
 	Sort(randomNumberList, graph, left, mid, merged);
 	if (merged) return;
-
 	Sort(randomNumberList, graph, mid+1, right, merged);
 	if (merged) return;
-
-	if (Merge(randomNumberList, graph, numListCopy, graphListCopy, left, mid, right))
+	if (Merge(randomNumberList, graph, copyList, copyGraph, left, mid, right))
 		merged = true;
 }
 
 void MergeSort::Update()
 {
-	//while (window->pollEvent(event))
-	//{
-	//	switch (event.type)
-	//	{
-	//	case sf::Event::Closed:
-	//		window->close();
-	//		break;
+	while (window->pollEvent(event))
+	{
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			window->close();
+			break;
 
-	//	case sf::Event::MouseButtonPressed:
-	//		if (startBtn.getGlobalBounds().contains(
-	//			window->mapPixelToCoords(
-	//				sf::Mouse::getPosition(*window))))
-	//		{
-	//			std::cout << "start button clicked.\n";
-	//			startBtn.setString("");
-	//			isAppRunning = true;
-	//		}
-	//		break;
-	//	}
-	//}
+		case sf::Event::MouseButtonPressed:
 
-	//if (isAppRunning)
-	//{
-	//	int left = 0;
-	//	int right = MAX_SIZE-1;
-	//	merged = false;
-	//	Sort(randomNumberList, graph, left, right, merged);
-	//	if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
-	//	{
-	//		//graph[index].setFillColor(sf::Color::Green);
-	//		isAppRunning = false;
-	//	}
-	//}
+			// start sorting:
+			if (UIElements["Start"].getGlobalBounds().contains(
+				window->mapPixelToCoords(
+					sf::Mouse::getPosition(*window))))
+			{
+				if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+				{
+					std::cout << "List already sorted.\n";
+					break;
+				}
+				std::cout << "start button clicked.\n";
+
+				// set all Texts to empty string:
+				for (auto& it : UIElements)
+					it.second.setString("");
+
+				isAppRunning = true;
+			}
+
+			// shuffle list:
+			if (UIElements["Shuffle"].getGlobalBounds().contains(
+				window->mapPixelToCoords(
+					sf::Mouse::getPosition(*window))))
+			{
+				std::cout << "shuffle button clicked.\n";
+
+				ShuffleList();
+
+				std::copy(
+					std::begin(randomNumberList),
+					std::end(randomNumberList),
+					std::begin(copyList)
+				);
+				std::copy(
+					std::begin(graph),
+					std::end(graph),
+					std::begin(copyGraph)
+				);
+
+				UIElements["Sorted"].setString("");
+				shuffled = true;
+				//sorted = false;
+			}
+			break;
+		}
+	}
+
+	if (isAppRunning && shuffled)
+	{
+		int left = 0;
+		int right = MAX_SIZE-1;
+		merged = false;
+		Sort(randomNumberList, graph, left, right, merged);
+		
+		// enter once list is fully sorted:
+		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+		{
+			graph[index].setFillColor(sf::Color::Green);
+
+			// show start button again once sorting animation has finished:
+			UIElements["Start"].setString("Start");
+			UIElements["Current algorithm selected"].setString("Current algorithm selected: ...");
+			UIElements["Bubble Sort"].setString("Bubble Sort");
+			UIElements["Insertion Sort"].setString("Insertion Sort");
+			UIElements["Selection Sort"].setString("Selection Sort");
+			UIElements["Merge Sort"].setString("Merge Sort");
+			UIElements["Shuffle"].setString("Shuffle");
+			UIElements["Sorted"].setString("Sorted");
+
+			//sorted = true;
+			shuffled = false;
+			isAppRunning = false;
+		}
+	}
 }
 
 void MergeSort::Render()
 {
-	//window->draw(startBtn);
-	//for (const auto& value : graph)
-	//	window->draw(value);
+	// draw all UI texts:
+	for (const auto& value : UIElements)
+		window->draw(value.second);
+
+	for (const auto& value : graph)
+		window->draw(value);
 }
 
 MergeSort::~MergeSort() {}

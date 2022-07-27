@@ -45,7 +45,7 @@ void SelectionSort::Sort(
 
 void SelectionSort::Update()
 {
-	/*while (window->pollEvent(event))
+	while (window->pollEvent(event))
 	{
 		switch (event.type)
 		{
@@ -54,34 +54,77 @@ void SelectionSort::Update()
 			break;
 
 		case sf::Event::MouseButtonPressed:
-			if (startBtn.getGlobalBounds().contains(
+
+			// start sorting:
+			if (UIElements["Start"].getGlobalBounds().contains(
 				window->mapPixelToCoords(
 					sf::Mouse::getPosition(*window))))
 			{
+				if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+				{
+					std::cout << "List already sorted.\n";
+					break;
+				}
 				std::cout << "start button clicked.\n";
-				startBtn.setString("");
+
+				// set all Texts to empty string:
+				for (auto& it : UIElements)
+					it.second.setString("");
+
 				isAppRunning = true;
+			}
+
+			// shuffle list:
+			if (UIElements["Shuffle"].getGlobalBounds().contains(
+				window->mapPixelToCoords(
+					sf::Mouse::getPosition(*window))))
+			{
+				std::cout << "shuffle button clicked.\n";
+
+				ShuffleList();
+
+				UIElements["Sorted"].setString("");
+				shuffled = true;
+				//sorted = false;
 			}
 			break;
 		}
 	}
 
-	if (isAppRunning)
+	if (isAppRunning && shuffled)
 	{
 		Sort(randomNumberList, graph);
+
+		// enter once list is fully sorted:
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(sf::Color::Green);
+
+			// show start button again once sorting animation has finished:
+			UIElements["Start"].setString("Start");
+			UIElements["Current selected algorithm: ..."].setString("Current selected algorithm: ...");
+			UIElements["Bubble Sort"].setString("Bubble Sort");
+			UIElements["Insertion Sort"].setString("Insertion Sort");
+			UIElements["Selection Sort"].setString("Selection Sort");
+			UIElements["Merge Sort"].setString("Merge Sort");
+			UIElements["Shuffle"].setString("Shuffle");
+			UIElements["Sorted"].setString("Sorted");
+
+			//sorted = true;
+			shuffled = false;
 			isAppRunning = false;
 		}
-	}*/
+	}
 }
 
 void SelectionSort::Render()
 {
-	//window->draw(startBtn);
-	//for (const auto& value : graph)
-	//	window->draw(value);
+	// draw all UI texts:
+	for (const auto& value : UIElements)
+		window->draw(value.second);
+
+	for (const auto& value : graph)
+		window->draw(value);
 }
 
 SelectionSort::~SelectionSort() {}
