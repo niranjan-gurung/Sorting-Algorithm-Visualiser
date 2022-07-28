@@ -70,7 +70,6 @@ protected:
 	bool sorted;
 	bool shuffled;
 	int index;			// position of the last red bar that needs turning green
-	int counter;
 };
 
 inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
@@ -78,10 +77,9 @@ inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	bar({66, 237, 209}),			// default bar colour
 	barSwapping(sf::Color::Red),	// colour of bar thats current getting changed
 	isAppRunning(false),			
-	sorted(false),					
+	sorted(true),					// list is already sorted when app is initially started
 	shuffled(false),
-	index(0),						// track last bar that was changed (to change its colour back to default)
-	counter(0)						
+	index(0)						// track last bar that was changed (to change its colour back to default)
 {
 	// setup initial values:
 	InitList();

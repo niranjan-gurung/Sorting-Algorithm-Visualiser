@@ -12,7 +12,7 @@ namespace SortVisualiser {
 		appWindow->setVerticalSyncEnabled(true);
 
 		// bubble sort by default
-		sortAlgorithm = std::make_unique<SelectionSort>(appWindow);
+		sortAlgorithm = std::make_unique<MergeSort>(appWindow);
 	}
 
 	void Application::Run()

@@ -54,7 +54,7 @@ void InsertionSort::Update()
 				window->mapPixelToCoords(
 					sf::Mouse::getPosition(*window))))
 			{
-				if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
+				if (sorted)
 				{
 					std::cout << "List already sorted.\n";
 					break;
@@ -79,7 +79,7 @@ void InsertionSort::Update()
 
 				UIElements["Sorted"].setString("");
 				shuffled = true;
-				//sorted = false;
+				sorted = false;
 			}
 			break;
 		}
@@ -104,7 +104,7 @@ void InsertionSort::Update()
 			UIElements["Shuffle"].setString("Shuffle");
 			UIElements["Sorted"].setString("Sorted");
 
-			//sorted = true;
+			sorted = true;
 			shuffled = false;
 			isAppRunning = false;
 		}
