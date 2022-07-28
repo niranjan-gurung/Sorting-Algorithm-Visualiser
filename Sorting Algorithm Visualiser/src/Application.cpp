@@ -15,7 +15,7 @@ namespace SortVisualiser {
 		ImGui::SFML::Init(*appWindow);
 
 		// bubble sort by default
-		sortAlgorithm = std::make_unique<BubbleSort>(appWindow);
+		sortAlgorithm = std::make_unique<MergeSort>(appWindow);
 	}
 
 	void Application::Run()

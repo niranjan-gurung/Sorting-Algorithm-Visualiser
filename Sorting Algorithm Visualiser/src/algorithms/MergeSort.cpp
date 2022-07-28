@@ -123,59 +123,70 @@ void MergeSort::Update(sf::Clock& dt)
 {
 	while (window->pollEvent(event))
 	{
+		ImGui::SFML::ProcessEvent(event);
 		switch (event.type)
 		{
 		case sf::Event::Closed:
 			window->close();
 			break;
-
-		case sf::Event::MouseButtonPressed:
-
-			// start sorting:
-			if (UIElements["Start"].getGlobalBounds().contains(
-				window->mapPixelToCoords(
-					sf::Mouse::getPosition(*window))))
-			{
-				if (sorted)
-				{
-					std::cout << "List already sorted.\n";
-					break;
-				}
-				std::cout << "start button clicked.\n";
-
-				// set all Texts to empty string:
-				for (auto& it : UIElements)
-					it.second.setString("");
-
-				isAppRunning = true;
-			}
-
-			// shuffle list:
-			if (UIElements["Shuffle"].getGlobalBounds().contains(
-				window->mapPixelToCoords(
-					sf::Mouse::getPosition(*window))))
-			{
-				std::cout << "shuffle button clicked.\n";
-
-				ShuffleList();
-
-				std::copy(
-					std::begin(randomNumberList),
-					std::end(randomNumberList),
-					std::begin(copyList)
-				);
-				std::copy(
-					std::begin(graph),
-					std::end(graph),
-					std::begin(copyGraph)
-				);
-
-				UIElements["Sorted"].setString("");
-				shuffled = true;
-				sorted = false;
-			}
-			break;
 		}
+	}
+
+	ImGui::SFML::Update(*window, dt.restart());
+
+	ImGui::Begin("settings");
+	// start sorting:
+	if (ImGui::Button("start visualisation"))
+	{
+		if (!sorted)
+		{
+			std::cout << "started visualisation.\n";
+			isAppRunning = true;
+		}
+		else
+			std::cout << "List already sorted.\n";
+	}
+
+	/*if (ImGui::Combo("Algorithms", &selected, algorithmList, IM_ARRAYSIZE(algorithmList)))
+	{
+	switch (selected)
+	{
+	case 0:
+	std::cout << "bubble\n";
+	break;
+	case 1:
+	std::cout << "insertion\n";
+	sortAlgorithm = std::make_unique<InsertionSort>(window);
+	break;
+	case 2:
+	std::cout << "selection\n";
+	break;
+	case 3:
+	std::cout << "merge\n";
+	break;
+	}
+	}*/
+
+	if (ImGui::Button("generate new list"))
+		std::cout << "new list created.\n";
+
+	// shuffle list:
+	if (ImGui::Button("shuffle"))
+	{
+		std::cout << "shuffle button clicked.\n";
+		ShuffleList();
+		std::copy(
+			std::begin(randomNumberList),
+			std::end(randomNumberList),
+			std::begin(copyList)
+		);
+		std::copy(
+			std::begin(graph),
+			std::end(graph),
+			std::begin(copyGraph)
+		);
+		shuffled = true;
+		sorted = false;
 	}
 
 	if (isAppRunning && shuffled)
@@ -189,32 +200,19 @@ void MergeSort::Update(sf::Clock& dt)
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(bar);
-
-			// show start button again once sorting animation has finished:
-			UIElements["Start"].setString("Start");
-			UIElements["Current algorithm selected"].setString("Current algorithm selected: ...");
-			UIElements["Bubble Sort"].setString("Bubble Sort");
-			UIElements["Insertion Sort"].setString("Insertion Sort");
-			UIElements["Selection Sort"].setString("Selection Sort");
-			UIElements["Merge Sort"].setString("Merge Sort");
-			UIElements["Shuffle"].setString("Shuffle");
-			UIElements["Sorted"].setString("Sorted");
-
 			sorted = true;
 			shuffled = false;
 			isAppRunning = false;
 		}
 	}
+	ImGui::End();
 }
 
 void MergeSort::Render()
 {
-	// draw all UI texts:
-	for (const auto& value : UIElements)
-		window->draw(value.second);
-
 	for (const auto& value : graph)
 		window->draw(value);
+	ImGui::SFML::Render(*window);
 }
 
 MergeSort::~MergeSort() {}
