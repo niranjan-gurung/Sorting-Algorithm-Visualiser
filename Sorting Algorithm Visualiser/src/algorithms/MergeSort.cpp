@@ -119,7 +119,7 @@ void MergeSort::Sort(
 		merged = true;
 }
 
-void MergeSort::Update()
+void MergeSort::Update(sf::Clock& dt)
 {
 	while (window->pollEvent(event))
 	{

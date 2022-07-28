@@ -37,10 +37,12 @@ void BubbleSort::Sort(
 	}
 }
 
-void BubbleSort::Update() 
+void BubbleSort::Update(sf::Clock& dt) 
 {
 	while (window->pollEvent(event))
 	{
+		ImGui::SFML::ProcessEvent(event);
+
 		switch (event.type)
 		{
 		case sf::Event::Closed:
@@ -85,6 +87,36 @@ void BubbleSort::Update()
 		}
 	}
 
+	ImGui::SFML::Update(*window, dt.restart());
+	
+	ImGui::Begin("settings");
+
+	if (ImGui::Button("start visualisation"))
+		std::cout << "started visualisation.\n";
+	/*if (ImGui::Combo("Algorithms", &selected, algorithmList, algorithmList.size()))
+	{
+		switch (selected)
+		{
+		case 0:
+			std::cout << "bubble\n";
+			break;
+		case 1:
+			std::cout << "insertion\n";
+			break;
+		case 2:
+			std::cout << "selection\n";
+			break;
+		case 3:
+			std::cout << "merge\n";
+			break;
+		}
+	}*/
+
+	if (ImGui::Button("generate new list"))
+		std::cout << "new list created.\n";
+	if (ImGui::Button("shuffle"))
+		std::cout << "list shuffled.\n";
+
 	if (isAppRunning && shuffled)
 	{
 		Sort(randomNumberList, graph);
@@ -109,6 +141,7 @@ void BubbleSort::Update()
 			isAppRunning = false;
 		}
 	}
+	ImGui::End();
 }
 
 void BubbleSort::Render() 
@@ -119,6 +152,8 @@ void BubbleSort::Render()
 
 	for (const auto& value : graph)
 		window->draw(value);
+
+	ImGui::SFML::Render(*window);
 }
 
 BubbleSort::~BubbleSort() {}

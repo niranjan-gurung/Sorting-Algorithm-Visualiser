@@ -22,7 +22,7 @@ namespace SortVisualiser {
 		~Application();
 
 		void Run();
-		void Update();
+		void Update(sf::Clock& dt);
 		void Render();
 
 	private:

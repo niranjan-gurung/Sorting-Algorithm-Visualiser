@@ -1,11 +1,14 @@
 #pragma once
+#include "../imgui/imgui.h"
+#include "../imgui/imgui-SFML.h"
+
+#include "Util.h"
+
 #include <array>
 #include <vector>
 #include <unordered_map>
 #include <random>
 #include <algorithm>
-
-#include "Util.h"
 
 /* Abstract class:
  * 
@@ -16,7 +19,8 @@
 	(as mergesort has different params compared to the other sorting algorithms):
  */
 
-constexpr int MAX_SIZE = 120;
+constexpr int MAX_SIZE			= 120;
+constexpr int ALGORITHM_LIST	= 4;
 
 using u32 = uint32_t;
 using Rect = sf::RectangleShape;
@@ -27,7 +31,7 @@ public:
 	SortInterface(std::shared_ptr<sf::RenderWindow> window);
 	virtual ~SortInterface() = default;
 
-	virtual void Update() = 0;
+	virtual void Update(sf::Clock& dt) = 0;
 	virtual void Render() = 0;
 	virtual void Sort(
 		std::array<u32, MAX_SIZE>& randomNumberList, 
@@ -64,12 +68,15 @@ protected:
 
 	std::unordered_map<std::string, sf::Text> UIElements;
 
+	std::array<std::string, ALGORITHM_LIST> algorithmList;
+	//const char* algorithmList[ALGORITHM_LIST];
 	std::string currentAlgorithm;
 
 	bool isAppRunning;	// track is start button is clicked
 	bool sorted;
 	bool shuffled;
 	int index;			// position of the last red bar that needs turning green
+	int selected;		// track current algorithm thats selected
 };
 
 inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
@@ -79,8 +86,12 @@ inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	isAppRunning(false),			
 	sorted(true),					// list is already sorted when app is initially started
 	shuffled(false),
-	index(0)						// track last bar that was changed (to change its colour back to default)
+	index(0),						// track last bar that was changed (to change its colour back to default)
+	selected(0)
 {
+	// list of algorithms the app currently supports:
+	algorithmList = { "Bubble Sort", "Insertion Sort", "Selection Sort", "Merge Sort" };
+
 	// setup initial values:
 	InitList();
 	font = util::LoadFont();

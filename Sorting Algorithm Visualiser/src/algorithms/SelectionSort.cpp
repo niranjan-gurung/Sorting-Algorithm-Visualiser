@@ -43,7 +43,7 @@ void SelectionSort::Sort(
 	}
 }
 
-void SelectionSort::Update()
+void SelectionSort::Update(sf::Clock& dt)
 {
 	while (window->pollEvent(event))
 	{

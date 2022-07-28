@@ -8,7 +8,7 @@ public:
 	MergeSort(std::shared_ptr<sf::RenderWindow> window);
 	~MergeSort();
 
-	void Update() override;
+	void Update(sf::Clock& dt) override;
 	void Render() override;
 	void Sort(
 		std::array<u32, MAX_SIZE>& randomNumberList, 

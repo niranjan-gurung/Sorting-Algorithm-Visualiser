@@ -37,7 +37,7 @@ void InsertionSort::Sort(
 	}
 }
 
-void InsertionSort::Update()
+void InsertionSort::Update(sf::Clock& dt)
 {
 	while (window->pollEvent(event))
 	{

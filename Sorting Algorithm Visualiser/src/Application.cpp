@@ -10,24 +10,28 @@ namespace SortVisualiser {
 			"Sorting Algorithm Visualiser!"
 		);
 		appWindow->setVerticalSyncEnabled(true);
+		
+		// init ImGui context:		
+		ImGui::SFML::Init(*appWindow);
 
 		// bubble sort by default
-		sortAlgorithm = std::make_unique<MergeSort>(appWindow);
+		sortAlgorithm = std::make_unique<BubbleSort>(appWindow);
 	}
 
 	void Application::Run()
 	{
 		while (appWindow->isOpen())
 		{
-			Update();
+			sf::Clock dt;
+			Update(dt);
 			Render();
 		}
 	}
 
-	void Application::Update()
+	void Application::Update(sf::Clock& dt)
 	{
 		if (sortAlgorithm != nullptr)
-			sortAlgorithm->Update();
+			sortAlgorithm->Update(dt);
 		else
 			appWindow->close();
 	}
@@ -44,5 +48,8 @@ namespace SortVisualiser {
 		appWindow->display();
 	}
 
-	Application::~Application() {}
+	Application::~Application() 
+	{
+		ImGui::SFML::Shutdown();
+	}
 }
