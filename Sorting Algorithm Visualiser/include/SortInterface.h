@@ -57,6 +57,8 @@ protected:
 	std::shared_ptr<sf::RenderWindow> window;
 	sf::Event event;
 
+	std::shared_ptr<SortInterface> currentAlgorithm;
+
 	/* empty lists: 
 	 * randomNumberList = number representing a bar.
 	 * graph = bar that visualises the corresponding number from randomNumberList.
@@ -68,10 +70,6 @@ protected:
 	sf::Font font;
 	sf::Color bar, barSwapping;
 
-	//std::unordered_map<std::string, sf::Text> UIElements;
-
-	std::string currentAlgorithm;
-
 	bool isAppRunning;	// track is start button is clicked
 	bool sorted;
 	bool shuffled;
@@ -81,6 +79,7 @@ protected:
 
 inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	: window(window), 
+	currentAlgorithm(nullptr),
 	bar({66, 237, 209}),			// default bar colour
 	barSwapping(sf::Color::Red),	// colour of bar thats current getting changed
 	isAppRunning(false),			

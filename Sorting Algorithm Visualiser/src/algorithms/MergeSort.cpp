@@ -1,6 +1,6 @@
 #include "../../include/MergeSort.h"
 
-MergeSort::MergeSort(std::shared_ptr<sf::RenderWindow> window)
+MergeSort::MergeSort(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<SortInterface> algorithm)
 	: SortInterface(window), merged(false) {}
 
 /* Merge sub-arrays of current recursion:
@@ -149,22 +149,25 @@ void MergeSort::Update(sf::Clock& dt)
 
 	/*if (ImGui::Combo("Algorithms", &selected, algorithmList, IM_ARRAYSIZE(algorithmList)))
 	{
-	switch (selected)
-	{
-	case 0:
-	std::cout << "bubble\n";
-	break;
-	case 1:
-	std::cout << "insertion\n";
-	sortAlgorithm = std::make_unique<InsertionSort>(window);
-	break;
-	case 2:
-	std::cout << "selection\n";
-	break;
-	case 3:
-	std::cout << "merge\n";
-	break;
-	}
+		switch (selected)
+		{
+		case 0:
+			std::cout << "bubble\n";
+			a(selected);
+			break;
+		case 1:
+			std::cout << "insertion\n";
+			a(selected);
+			break;
+		case 2:
+			std::cout << "selection\n";
+			a(selected);
+			break;
+		case 3:
+			std::cout << "merge\n";
+			a(selected);
+			break;
+		}
 	}*/
 
 	if (ImGui::Button("generate new list"))

@@ -5,7 +5,7 @@
 class InsertionSort : public SortInterface
 {
 public:
-	InsertionSort(std::shared_ptr<sf::RenderWindow> window);
+	InsertionSort(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<SortInterface> algorithm);
 	~InsertionSort();
 
 	void Update(sf::Clock& dt) override;

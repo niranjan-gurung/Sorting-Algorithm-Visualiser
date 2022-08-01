@@ -5,7 +5,7 @@
 class BubbleSort : public SortInterface
 {
 public:
-	BubbleSort(std::shared_ptr<sf::RenderWindow> window);
+	BubbleSort(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<SortInterface> algorithm);
 	~BubbleSort();
 
 	void Update(sf::Clock& dt) override;

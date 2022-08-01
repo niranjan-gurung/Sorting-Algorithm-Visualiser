@@ -5,7 +5,7 @@
 class MergeSort : public SortInterface
 {
 public:
-	MergeSort(std::shared_ptr<sf::RenderWindow> window);
+	MergeSort(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<SortInterface> algorithm);
 	~MergeSort();
 
 	void Update(sf::Clock& dt) override;

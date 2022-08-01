@@ -1,7 +1,7 @@
 #include "../include/Application.h"
 
 namespace SortVisualiser {
-	
+
 	Application::Application() 
 		: sleepTime(20)
 	{
@@ -14,15 +14,15 @@ namespace SortVisualiser {
 		// init ImGui context:		
 		ImGui::SFML::Init(*appWindow);
 
-		// bubble sort by default
-		sortAlgorithm = std::make_unique<MergeSort>(appWindow);
+		// bubble sort by default:
+		currentAlgorithm = std::make_shared<BubbleSort>(appWindow, currentAlgorithm);
 	}
 
 	void Application::Run()
 	{
+		sf::Clock dt;
 		while (appWindow->isOpen())
 		{
-			sf::Clock dt;
 			Update(dt);
 			Render();
 		}
@@ -30,8 +30,8 @@ namespace SortVisualiser {
 
 	void Application::Update(sf::Clock& dt)
 	{
-		if (sortAlgorithm != nullptr)
-			sortAlgorithm->Update(dt);
+		if (currentAlgorithm != nullptr)
+			currentAlgorithm->Update(dt);
 		else
 			appWindow->close();
 	}
@@ -42,8 +42,8 @@ namespace SortVisualiser {
 
 		// pausing between renders to show sorting animation:
 		sf::sleep(sf::milliseconds(sleepTime));
-		if (sortAlgorithm != nullptr)
-			sortAlgorithm->Render();
+		if (currentAlgorithm != nullptr)
+			currentAlgorithm->Render();
 	
 		appWindow->display();
 	}

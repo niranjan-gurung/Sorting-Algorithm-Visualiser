@@ -1,7 +1,13 @@
 #include "../../include/BubbleSort.h"
+#include "../../include/InsertionSort.h"
+#include "../../include/SelectionSort.h"
+#include "../../include/MergeSort.h"
 
-BubbleSort::BubbleSort(std::shared_ptr<sf::RenderWindow> window)
-	: SortInterface(window) {}
+BubbleSort::BubbleSort(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<SortInterface> algorithm)
+	: SortInterface(window) 
+{
+	currentAlgorithm = algorithm;
+}
 
 // Bubble sort algorithm:
 void BubbleSort::Sort(
@@ -65,25 +71,28 @@ void BubbleSort::Update(sf::Clock& dt)
 			std::cout << "List already sorted.\n";
 	}
 	
-	/*if (ImGui::Combo("Algorithms", &selected, algorithmList, IM_ARRAYSIZE(algorithmList)))
+	if (ImGui::Combo("Algorithms", &selected, algorithmList, IM_ARRAYSIZE(algorithmList)))
 	{
 		switch (selected)
 		{
 		case 0:
 			std::cout << "bubble\n";
+			currentAlgorithm = std::make_unique<BubbleSort>(window, currentAlgorithm);
 			break;
 		case 1:
 			std::cout << "insertion\n";
-			sortAlgorithm = std::make_unique<InsertionSort>(window);
+			currentAlgorithm = std::make_unique<InsertionSort>(window, currentAlgorithm);
 			break;
 		case 2:
 			std::cout << "selection\n";
+			currentAlgorithm = std::make_unique<SelectionSort>(window, currentAlgorithm);
 			break;
 		case 3:
 			std::cout << "merge\n";
+			currentAlgorithm = std::make_unique<MergeSort>(window, currentAlgorithm);
 			break;
 		}
-	}*/
+	}
 
 	if (ImGui::Button("generate new list"))
 		std::cout << "new list created.\n";

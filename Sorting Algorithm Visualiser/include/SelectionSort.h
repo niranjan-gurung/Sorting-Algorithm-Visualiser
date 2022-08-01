@@ -5,7 +5,7 @@
 class SelectionSort : public SortInterface
 {
 public:
-	SelectionSort(std::shared_ptr<sf::RenderWindow> window);
+	SelectionSort(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<SortInterface> algorithm);
 	~SelectionSort();
 
 	void Update(sf::Clock& dt) override;

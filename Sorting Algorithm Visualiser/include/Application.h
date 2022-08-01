@@ -25,12 +25,12 @@ namespace SortVisualiser {
 		void Update(sf::Clock& dt);
 		void Render();
 
+		//void SelectAlgorithm(int& selected);
+
 	private:
 		// appWindow is shared amongst the rest of the sorting algorithm classes:
 		std::shared_ptr<sf::RenderWindow> appWindow;
-		sf::Event event;
-	
-		std::unique_ptr<SortInterface> sortAlgorithm;
+		std::shared_ptr<SortInterface> currentAlgorithm;
 		u32 sleepTime;
 	};
 }
