@@ -10,6 +10,7 @@ Algorithms Visualised:
 - Merge Sort
 
 Gifs:
+![alt text](example/bubblesort.gif)
 
 Algorithms to implement in the future:
 
