@@ -1,13 +1,7 @@
 #include "../../include/InsertionSort.h"
-#include "../../include/BubbleSort.h"
-#include "../../include/SelectionSort.h"
-#include "../../include/MergeSort.h"
 
-InsertionSort::InsertionSort(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<SortInterface> algorithm)
-	: SortInterface(window) 
-{
-	currentAlgorithm = algorithm;
-}
+InsertionSort::InsertionSort(std::shared_ptr<sf::RenderWindow> window)
+	: SortInterface(window) {}
 
 // Insertion sort algorithm:
 void InsertionSort::Sort(
@@ -43,7 +37,7 @@ void InsertionSort::Sort(
 	}
 }
 
-void InsertionSort::Update(sf::Clock& dt)
+void InsertionSort::Update(sf::Clock& dt, util::Settings& settings)
 {
 	while (window->pollEvent(event))
 	{
@@ -55,58 +49,25 @@ void InsertionSort::Update(sf::Clock& dt)
 			break;
 		}
 	}
-
 	ImGui::SFML::Update(*window, dt.restart());
 
-	ImGui::Begin("settings");
-	// start sorting:
-	if (ImGui::Button("start visualisation"))
+	// reinitialise list with new values:
+	if (settings.generateNewList)
 	{
-		if (!sorted)
-		{
-			std::cout << "started visualisation.\n";
-			isAppRunning = true;
-		}
-		else
-			std::cout << "List already sorted.\n";
+		InitList();
+		settings.generateNewList = false;
+		settings.isSorted = true;
 	}
-
-	if (ImGui::Combo("Algorithms", &selected, algorithmList, IM_ARRAYSIZE(algorithmList)))
-	{
-		switch (selected)
-		{
-		case 0:
-			std::cout << "bubble\n";
-			currentAlgorithm = std::make_unique<BubbleSort>(window, currentAlgorithm);
-			break;
-		case 1:
-			std::cout << "insertion\n";
-			currentAlgorithm = std::make_unique<InsertionSort>(window, currentAlgorithm);
-			break;
-		case 2:
-			std::cout << "selection\n";
-			currentAlgorithm = std::make_unique<SelectionSort>(window, currentAlgorithm);
-			break;
-		case 3:
-			std::cout << "merge\n";
-			currentAlgorithm = std::make_unique<MergeSort>(window, currentAlgorithm);
-			break;
-		}
-	}
-
-	if (ImGui::Button("generate new list"))
-		std::cout << "new list created.\n";
 
 	// shuffle list:
-	if (ImGui::Button("shuffle"))
+	if (settings.isShuffled)
 	{
-		std::cout << "shuffle button clicked.\n";
 		ShuffleList();
-		shuffled = true;
-		sorted = false;
+		settings.isShuffled = false;
+		settings.isSorted = false;
 	}
 
-	if (isAppRunning && shuffled)
+	if (settings.isAppRunning && !settings.isShuffled)
 	{
 		Sort(randomNumberList, graph);
 
@@ -114,19 +75,17 @@ void InsertionSort::Update(sf::Clock& dt)
 		if (std::is_sorted(randomNumberList.begin(), randomNumberList.end()))
 		{
 			graph[index].setFillColor(bar);
-			sorted = true;
-			shuffled = false;
-			isAppRunning = false;
+			settings.isSorted = true;
+			settings.isShuffled = false;
+			settings.isAppRunning = false;
 		}
 	}
-	ImGui::End();
 }
 
 void InsertionSort::Render()
 {
 	for (const auto& value : graph)
 		window->draw(value);
-	ImGui::SFML::Render(*window);
 }
 
 InsertionSort::~InsertionSort() {}

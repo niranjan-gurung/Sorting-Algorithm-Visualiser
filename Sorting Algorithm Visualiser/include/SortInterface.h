@@ -20,9 +20,6 @@
  */
 
 constexpr int MAX_SIZE = 120;
-static const char* algorithmList[] = { 
-	"Bubble Sort", "Insertion Sort", "Selection Sort", "Merge Sort" 
-};
 
 using u32	= uint32_t;
 using Rect	= sf::RectangleShape;
@@ -33,7 +30,7 @@ public:
 	SortInterface(std::shared_ptr<sf::RenderWindow> window);
 	virtual ~SortInterface() = default;
 
-	virtual void Update(sf::Clock& dt) = 0;
+	virtual void Update(sf::Clock& dt, util::Settings& settings) = 0;
 	virtual void Render() = 0;
 	virtual void Sort(
 		std::array<u32, MAX_SIZE>& randomNumberList, 
@@ -48,16 +45,14 @@ public:
 
 protected:
 	void ShuffleList();
+	void InitList();
 
 private:
-	void InitList();
 	void InitGraph();
 
 protected:
 	std::shared_ptr<sf::RenderWindow> window;
 	sf::Event event;
-
-	std::shared_ptr<SortInterface> currentAlgorithm;
 
 	/* empty lists: 
 	 * randomNumberList = number representing a bar.
@@ -67,30 +62,21 @@ protected:
 	std::array<Rect, MAX_SIZE> graph;
 
 	// utility
-	sf::Font font;
 	sf::Color bar, barSwapping;
 
-	bool isAppRunning;	// track is start button is clicked
-	bool sorted;
-	bool shuffled;
-	int index;			// position of the last red bar that needs turning green
-	int selected;		// track current algorithm thats selected
+	// position of the last red bar that needs turning green
+	int index;	
 };
 
 inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 	: window(window), 
-	currentAlgorithm(nullptr),
 	bar({66, 237, 209}),			// default bar colour
 	barSwapping(sf::Color::Red),	// colour of bar thats current getting changed
-	isAppRunning(false),			
-	sorted(true),					// list is already sorted when app is initially started
-	shuffled(false),
-	index(0),						// track last bar that was changed (to change its colour back to default)
-	selected(0)
+	index(0)						// track last bar that was changed (to change its colour back to default)
 {
 	// setup initial values:
 	InitList();
-	font = util::LoadFont();
+	//font = util::LoadFont();
 }
 
 inline void SortInterface::ShuffleList()

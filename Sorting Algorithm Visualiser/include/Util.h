@@ -6,10 +6,10 @@
 
 namespace util {
 
-	sf::Font LoadFont();
-	sf::Text SetupText(const std::string& name,	
-			sf::Font& font, 
-			const sf::Vector2f& pos = { 50, 50 },
-			sf::Color colour = sf::Color::Red,
-			int charSize = 20);
+	struct Settings
+	{
+		Settings();
+		bool isSorted, isShuffled, isAppRunning, generateNewList;
+		int selected;
+	};
 };
