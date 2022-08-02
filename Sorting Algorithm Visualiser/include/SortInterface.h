@@ -76,7 +76,6 @@ inline SortInterface::SortInterface(std::shared_ptr<sf::RenderWindow> window)
 {
 	// setup initial values:
 	InitList();
-	//font = util::LoadFont();
 }
 
 inline void SortInterface::ShuffleList()
