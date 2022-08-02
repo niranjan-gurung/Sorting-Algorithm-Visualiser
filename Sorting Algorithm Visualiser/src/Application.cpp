@@ -107,7 +107,7 @@ namespace SortVisualiser {
 		appWindow->clear(sf::Color::White);
 
 		// pausing between renders to show sorting animation:
-		//sf::sleep(sf::milliseconds(sleepTime));
+		sf::sleep(sf::milliseconds(sleepTime));
 		if (currentAlgorithm != nullptr)
 		{
 			currentAlgorithm->Render();

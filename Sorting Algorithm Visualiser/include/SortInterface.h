@@ -19,7 +19,7 @@
 	(as mergesort has different params compared to the other sorting algorithms):
  */
 
-constexpr int MAX_SIZE = 50;
+constexpr int MAX_SIZE = 120;
 
 using u32	= uint32_t;
 using Rect	= sf::RectangleShape;

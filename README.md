@@ -9,7 +9,7 @@ Algorithms Visualised:
 - Insertion Sort
 - Merge Sort
 
-## Gifs:
+## GIF:
 
 Bubble sort
 ![alt text](example/bubblesort.gif)
