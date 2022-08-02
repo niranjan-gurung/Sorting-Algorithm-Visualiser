@@ -1,6 +1,6 @@
 # Sorting Algorithm Visualiser!
 
-## Using C++ && SFML
+## Using C++ && SFML && ImGui
 
 Algorithms Visualised:
 
@@ -9,9 +9,7 @@ Algorithms Visualised:
 - Insertion Sort
 - Merge Sort
 
-TODO:
-
-- ImGui-SFML for UI/Buttons
+Gifs:
 
 Algorithms to implement in the future:
 
