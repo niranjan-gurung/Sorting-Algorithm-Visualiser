@@ -11,16 +11,16 @@ Algorithms Visualised:
 
 ## GIF:
 
-Bubble sort
+### Bubble sort
 ![alt text](example/bubblesort.gif)
 
-Insertion Sort
+### Insertion Sort
 ![alt text](example/insertionsort.gif)
 
-Selection Sort
+### Selection Sort
 ![alt text](example/selectionsort.gif)
 
-Merge Sort
+### Merge Sort
 ![alt text](example/mergesort.gif)
 
 Algorithms to implement in the future:
