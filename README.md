@@ -22,10 +22,3 @@ Algorithms Visualised:
 
 ### Merge Sort
 ![alt text](example/mergesort.gif)
-
-Algorithms to implement in the future:
-
-- Shell Sort
-- Heap Sort
-- Quick Sort
-- Pancake Sort
