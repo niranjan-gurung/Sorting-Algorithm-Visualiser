@@ -1,6 +1,6 @@
 # Sorting Algorithm Visualiser!
 
-## Using C++ && SFML && ImGui
+### C++ && SFML && ImGui
 
 Algorithms Visualised:
 
@@ -9,16 +9,5 @@ Algorithms Visualised:
 - Insertion Sort
 - Merge Sort
 
-## GIF:
-
-### Bubble sort
+Bubble sort example
 ![alt text](example/bubblesort.gif)
-
-### Insertion Sort
-![alt text](example/insertionsort.gif)
-
-### Selection Sort
-![alt text](example/selectionsort.gif)
-
-### Merge Sort
-![alt text](example/mergesort.gif)
