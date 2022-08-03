@@ -10,4 +10,5 @@ Algorithms Visualised:
 - Merge Sort
 
 Bubble sort example
+
 ![alt text](example/bubblesort.gif)
